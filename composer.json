@@ -1,0 +1,20 @@
+{
+    "name": "emonkak/pdo-interface",
+    "description": "Interface as a subset of the PDO",
+    "version": "0.1.0",
+    "license": "MIT License",
+    "authors": [
+        {
+            "name": "Shota Nozaki",
+            "email": "emonkak@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "PDOInterface\\": "src/"
+        }
+    }
+}
