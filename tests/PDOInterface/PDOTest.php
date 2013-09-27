@@ -28,7 +28,7 @@ class PDOTest extends \PHPUnit_Framework_TestCase
 
     public function testErrorInfo()
     {
-        $this->assertEquals([0, null, null], $this->pdo->errorInfo());
+        $this->assertEquals(array(0, null, null), $this->pdo->errorInfo());
     }
 
     public function testLastInsertId()
@@ -53,6 +53,6 @@ class PDOTest extends \PHPUnit_Framework_TestCase
         );
 
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
-        $this->assertEquals(['num' => 1], $stmt->fetch());
+        $this->assertEquals(array('num' => 1), $stmt->fetch());
     }
 }
