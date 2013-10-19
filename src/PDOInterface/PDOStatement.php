@@ -24,7 +24,7 @@
 namespace PDOInterface;
 
 /**
- * PDOStatement implementation of the PDOStatementInterface.
+ * PDOStatementInterface implementation class.
  */
 class PDOStatement extends \PDOStatement implements PDOStatementInterface
 {

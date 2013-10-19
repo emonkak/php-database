@@ -24,7 +24,7 @@
 namespace PDOInterface;
 
 /**
- * Interface as a subset of the PDO.
+ * Interface as a subset of PDO.
  */
 interface PDOInterface
 {

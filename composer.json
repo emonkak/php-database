@@ -1,6 +1,6 @@
 {
     "name": "emonkak/pdo-interface",
-    "description": "Interface as a subset of the PDO",
+    "description": "Interface as a subset of PDO",
     "version": "0.1.0",
     "license": "MIT License",
     "authors": [

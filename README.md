@@ -1,6 +1,6 @@
 # PDO Interface [![Build Status](https://travis-ci.org/emonkak/pdo-interface.png)](https://travis-ci.org/emonkak/pdo-interface)
 
-Interface as a subset of the PDO.
+Interface as a subset of PDO.
 
 ## PDOInterface\PDOInterface
 
@@ -36,4 +36,3 @@ Please see below links for details of the method.
 - [nextRowset](http://www.php.net/manual/pdostatement.nextrowset.php)()
 - [rowCount](http://www.php.net/manual/pdostatement.rowcount.php)()
 - [setFetchMode](http://www.php.net/manual/pdostatement.setfetchmode.php)($fetch_style, $fetch_argument = null, $ctor_args = null)
-

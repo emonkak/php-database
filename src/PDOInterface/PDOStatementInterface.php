@@ -24,7 +24,7 @@
 namespace PDOInterface;
 
 /**
- * Interface as a subset of the PDOStatement.
+ * Interface as a subset of PDOStatement.
  */
 interface PDOStatementInterface extends \Traversable
 {
