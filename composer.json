@@ -1,7 +1,6 @@
 {
     "name": "emonkak/pdo-interface",
-    "description": "Interface as a subset of PDO",
-    "version": "0.1.0",
+    "description": "The interface as a subset of PDO",
     "license": "MIT License",
     "authors": [
         {
@@ -12,9 +11,18 @@
     "require": {
         "php": ">=5.3.3"
     },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4",
+        "satooshi/php-coveralls": "dev-master"
+    },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "PDOInterface\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PDOInterface\\Tests\\": "tests/"
         }
     }
 }

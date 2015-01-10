@@ -1,6 +1,9 @@
-# PDO Interface [![Build Status](https://travis-ci.org/emonkak/pdo-interface.png)](https://travis-ci.org/emonkak/pdo-interface)
+# PDO Interface
 
-Interface as a subset of PDO.
+[![Build Status](https://travis-ci.org/emonkak/php-pdo-interface.png)](https://travis-ci.org/emonkak/php-pdo-interface)
+[![Coverage Status](https://coveralls.io/repos/emonkak/php-pdo-interface/badge.png)](https://coveralls.io/r/emonkak/php-pdo-interface)
+
+The interface as a subset of PDO.
 
 ## PDOInterface\PDOInterface
 
@@ -16,6 +19,7 @@ Please see below links for details of the method.
 - [lastInsertId](http://www.php.net/manual/pdo.lastinsertid.php)($name = null)
 - [prepare](http://www.php.net/manual/pdo.prepare.php)($statement)
 - [query](http://www.php.net/manual/pdo.query.php)($statement)
+- [quote](http://www.php.net/manual/pdo.quote.php)($string, $parameter_type = null)
 - [rollback](http://www.php.net/manual/pdo.rollback.php)
 
 ## PDOInterface\PDOStatementInterface

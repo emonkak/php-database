@@ -24,7 +24,7 @@
 namespace PDOInterface;
 
 /**
- * Interface as a subset of PDO.
+ * The interface as a subset of PDO.
  */
 interface PDOInterface
 {
@@ -61,7 +61,7 @@ interface PDOInterface
     /**
      * Execute an SQL statement and return the number of affected rows.
      *
-     * @param  string $statement
+     * @param string $statement
      * @return integer
      */
     public function exec($statement);
@@ -76,7 +76,7 @@ interface PDOInterface
     /**
      * Returns the ID of the last inserted row or sequence value.
      *
-     * @param  string|null $name
+     * @param string|null $name
      * @return string
      */
     public function lastInsertId($name = null);
@@ -84,7 +84,7 @@ interface PDOInterface
     /**
      * Prepares a statement for execution and returns a statement object.
      *
-     * @param  string $statement
+     * @param string $statement
      * @return PDOStatementInterface
      */
     public function prepare($statement);
@@ -92,10 +92,19 @@ interface PDOInterface
     /**
      * Executes an SQL statement, returning a result set as a statement object.
      *
-     * @param  string $statement
+     * @param string $statement
      * @return PDOStatementInterface
      */
     public function query($statement);
+
+    /**
+     * Quotes a string for use in a query.
+     *
+     * @param string       $string
+     * @param integer|null $parameter_type
+     * @return PDOStatementInterface
+     */
+    public function quote($string, $parameter_type = null);
 
     /**
      * Rolls back a transaction.

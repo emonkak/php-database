@@ -24,7 +24,7 @@
 namespace PDOInterface;
 
 /**
- * PDOInterface implementation class.
+ * The implementation of PDOInterface.
  */
 class PDO extends \PDO implements PDOInterface
 {
