@@ -78,7 +78,7 @@ class PDOConnector implements PDOInterface
         if ($this->pdo === null) {
             $this->pdo = new \PDO($this->dsn, $this->user, $this->password, $this->options);
             $this->pdo->setAttribute(
-                PDO::ATTR_STATEMENT_CLASS,
+                \PDO::ATTR_STATEMENT_CLASS,
                 array(__NAMESPACE__ . '\\PDOStatement', array())
             );
         }
