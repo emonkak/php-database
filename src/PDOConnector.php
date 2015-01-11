@@ -87,6 +87,8 @@ class PDOConnector implements PDOInterface
 
     /**
      * Returns whether the connection is available.
+     *
+     * @return boolean
      */
     public function isConnected()
     {
