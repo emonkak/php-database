@@ -50,16 +50,12 @@ class PDOConnector implements PDOInterface
      * Gets the PDO connection of the database. And connect to the database if
      * not connected yet.
      *
-     * @return \PDO
+     * @return PDO
      */
     public function getPdo()
     {
         if ($this->pdo === null) {
-            $this->pdo = new \PDO($this->dsn, $this->user, $this->password, $this->options);
-            $this->pdo->setAttribute(
-                \PDO::ATTR_STATEMENT_CLASS,
-                array(__NAMESPACE__ . '\\PDOStatement', array())
-            );
+            $this->pdo = new PDO($this->dsn, $this->user, $this->password, $this->options);
         }
         return $this->pdo;
     }
@@ -141,9 +137,9 @@ class PDOConnector implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function query($statement)
+    public function query($statement, $param1 = null, $param2 = null, $param3 = null)
     {
-        return $this->getPdo()->query($statement);
+        return $this->getPdo()->query($statement, $param1, $param2, $param3);
     }
 
     /**

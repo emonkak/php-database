@@ -26,8 +26,20 @@ class PDO extends \PDO implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function query($statement)
+    public function query($statement, $param1 = null, $param2 = null, $param3 = null)
     {
+        if ($param3 !== null) {
+            return parent::query($statement, $param1, $param2, $param3);
+        }
+
+        if ($param2 !== null) {
+            return parent::query($statement, $param1, $param2);
+        }
+
+        if ($param1 !== null) {
+            return parent::query($statement, $param1);
+        }
+
         return parent::query($statement);
     }
 }

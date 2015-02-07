@@ -71,10 +71,13 @@ interface PDOInterface
     /**
      * Executes an SQL statement, returning a result set as a statement object.
      *
-     * @param string $statement
+     * @param string     $statement
+     * @param mixed|null $param1
+     * @param mixed|null $param2
+     * @param mixed|null $param3
      * @return PDOStatementInterface
      */
-    public function query($statement);
+    public function query($statement, $param1 = null, $param2 = null, $param3 = null);
 
     /**
      * Quotes a string for use in a query.

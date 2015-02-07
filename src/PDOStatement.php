@@ -16,7 +16,7 @@ class PDOStatement extends \PDOStatement implements PDOStatementInterface
      */
     public function setFetchMode($mode, $param1 = null, $param2 = null)
     {
-        if ($param1 !== null && $param2 !== null) {
+        if ($param2 !== null) {
             return parent::setFetchMode($mode, $param1, $param2);
         }
 

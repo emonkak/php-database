@@ -63,14 +63,17 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
 
     public function testQuery()
     {
-        $stmt = $this->pdo->query('SELECT 1 AS num');
-        $this->assertInstanceOf(
-            'Emonkak\Database\PDOStatementInterface',
-            $stmt
-        );
+        $stmt = $this->pdo->query('SELECT 1');
+        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
 
-        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
-        $this->assertEquals(array('num' => 1), $stmt->fetch());
+        $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_ASSOC);
+        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
+
+        $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_COLUMN, 1);
+        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
+
+        $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_CLASS, 'stdClass', array());
+        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
     }
 
     public function testQuote()
