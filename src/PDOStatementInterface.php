@@ -75,4 +75,14 @@ interface PDOStatementInterface extends \Traversable
      * @return integer
      */
     public function rowCount();
+
+    /**
+     * Returns the number of rows affected by the last SQL statement.
+     *
+     * @param  integer    $mode
+     * @param  mixed|null $param1
+     * @param  mixed|null $param2
+     * @return boolean
+     */
+    public function setFetchMode($mode, $param1 = null, $param2 = null);
 }

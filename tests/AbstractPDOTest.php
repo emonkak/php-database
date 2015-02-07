@@ -55,8 +55,9 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
     public function testPrepare()
     {
         $stmt = $this->pdo->prepare('SELECT 1');
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
         $stmt->setFetchMode(\PDO::FETCH_COLUMN, 1);
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'StdClass', array());
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'stdClass', array());
         $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
     }
 

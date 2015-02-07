@@ -36,3 +36,4 @@ Please see below links for details of the method.
 - [fetchAll](http://www.php.net/manual/pdostatement.fetchall.php)($fetch\_style = null, $fetch\_argument = null, $ctor_args = null)
 - [fetchColumn](http://www.php.net/manual/pdostatement.fetchcolumn.php)($column_number = 0)
 - [rowCount](http://www.php.net/manual/pdostatement.rowcount.php)()
+- [setFetchMode](http://www.php.net/manual/pdostatement.setfetchmode.php)($fetch_style, $fetch_argument = null, $ctor_args = null)
