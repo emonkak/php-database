@@ -18,20 +18,6 @@ interface PDOStatementInterface extends \Traversable
     public function bindValue($parameter, $value, $data_type = null);
 
     /**
-     * Closes the cursor, enabling the statement to be executed again.
-     *
-     * @return boolean
-     */
-    public function closeCursor();
-
-    /**
-     * Returns the number of columns in the result set.
-     *
-     * @return integer
-     */
-    public function columnCount();
-
-    /**
      * Fetch the SQLSTATE associated with the last operation on the statement
      * handle.
      *
@@ -82,13 +68,6 @@ interface PDOStatementInterface extends \Traversable
      * @return string
      */
     public function fetchColumn($column_number = 0);
-
-    /**
-     * Advances to the next rowset in a multi-rowset statement handle.
-     *
-     * @return boolean
-     */
-    public function nextRowset();
 
     /**
      * Returns the number of rows affected by the last SQL statement.
