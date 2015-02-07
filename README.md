@@ -1,13 +1,13 @@
-# PDO Interface
+# Emonkak\Database
 
-[![Build Status](https://travis-ci.org/emonkak/php-pdo-interface.png)](https://travis-ci.org/emonkak/php-pdo-interface)
-[![Coverage Status](https://coveralls.io/repos/emonkak/php-pdo-interface/badge.png)](https://coveralls.io/r/emonkak/php-pdo-interface)
+[![Build Status](https://travis-ci.org/emonkak/php-database.png)](https://travis-ci.org/emonkak/php-database)
+[![Coverage Status](https://coveralls.io/repos/emonkak/php-database/badge.png)](https://coveralls.io/r/emonkak/php-database)
 
-The interface as a subset of PDO.
+A database abstraction interface as a subset of PDO.
 
-## PDOInterface\PDOInterface
+## Emonkak\Database\PDOInterface
 
-`PDOInterface\PDO` implements this interface.
+`Emonkak\Database\PDO` implements this interface.
 
 Please see below links for details of the method.
 
@@ -22,9 +22,9 @@ Please see below links for details of the method.
 - [quote](http://www.php.net/manual/pdo.quote.php)($string, $parameter_type = null)
 - [rollback](http://www.php.net/manual/pdo.rollback.php)
 
-## PDOInterface\PDOStatementInterface
+## Emonkak\Database\PDOStatementInterface
 
-`PDOInterface\PDOStatement` implements this interface.
+`Emonkak\Database\PDOStatement` implements this interface.
 
 Please see below links for details of the method.
 

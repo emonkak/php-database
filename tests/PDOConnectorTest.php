@@ -1,8 +1,8 @@
 <?php
 
-namespace PDOInterface\Tests;
+namespace Emonkak\Database\Tests;
 
-use PDOInterface\PDOConnector;
+use Emonkak\Database\PDOConnector;
 
 class PDOConnectorTest extends AbstractPDOTest
 {

@@ -1,6 +1,6 @@
 {
-    "name": "emonkak/pdo-interface",
-    "description": "The interface as a subset of PDO",
+    "name": "emonkak/database",
+    "description": " A database abstraction interface as a subset of PDO",
     "license": "MIT License",
     "authors": [
         {
@@ -18,12 +18,12 @@
     },
     "autoload": {
         "psr-4": {
-            "PDOInterface\\": "src/"
+            "Emonkak\\Database\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "PDOInterface\\Tests\\": "tests/"
+            "Emonkak\\Database\\Tests\\": "tests/"
         }
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace PDOInterface\Tests;
+namespace Emonkak\Database\Tests;
 
-use PDOInterface\PDOInterface;
+use Emonkak\Database\PDOInterface;
 
 abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,14 +57,14 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
         $stmt = $this->pdo->prepare('SELECT 1');
         $stmt->setFetchMode(\PDO::FETCH_COLUMN, 1);
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'StdClass', array());
-        $this->assertInstanceOf('PDOInterface\\PDOStatementInterface', $stmt);
+        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
     }
 
     public function testQuery()
     {
         $stmt = $this->pdo->query('SELECT 1 AS num');
         $this->assertInstanceOf(
-            'PDOInterface\\PDOStatementInterface',
+            'Emonkak\Database\PDOStatementInterface',
             $stmt
         );
 
