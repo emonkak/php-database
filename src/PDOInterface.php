@@ -5,22 +5,8 @@ namespace Emonkak\Database;
 /**
  * The interface as a subset of PDO.
  */
-interface PDOInterface
+interface PDOInterface extends PDOTransactionInterface
 {
-    /**
-     * Initiates a transaction.
-     *
-     * @return boolean
-     */
-    public function beginTransaction();
-
-    /**
-     * Commits a transaction.
-     *
-     * @return boolean
-     */
-    public function commit();
-
     /**
      * Fetch the SQLSTATE associated with the last operation on the database
      * handle.
@@ -44,13 +30,6 @@ interface PDOInterface
      * @return integer
      */
     public function exec($statement);
-
-    /**
-     * Checks if inside a transaction.
-     *
-     * @return boolean
-     */
-    public function inTransaction();
 
     /**
      * Returns the ID of the last inserted row or sequence value.
@@ -87,11 +66,4 @@ interface PDOInterface
      * @return PDOStatementInterface
      */
     public function quote($string, $parameter_type = null);
-
-    /**
-     * Rolls back a transaction.
-     *
-     * @return boolean
-     */
-    public function rollback();
 }
