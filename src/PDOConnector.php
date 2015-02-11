@@ -71,6 +71,14 @@ class PDOConnector implements PDOInterface
     }
 
     /**
+     * Disconnects this connection.
+     */
+    public function disconnect()
+    {
+        $this->pdo = null;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function beginTransaction()

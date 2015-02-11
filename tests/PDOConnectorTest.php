@@ -11,6 +11,9 @@ class PDOConnectorTest extends AbstractPDOTest
         $this->assertFalse($this->pdo->isConnected());
         $this->assertInstanceOf('PDO', $this->pdo->getPdo());
         $this->assertTrue($this->pdo->isConnected());
+
+        $this->pdo->disconnect();
+        $this->assertFalse($this->pdo->isConnected());
     }
 
     public function testSerialize()
