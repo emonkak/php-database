@@ -63,7 +63,7 @@ interface PDOInterface extends PDOTransactionInterface
      *
      * @param string       $string
      * @param integer|null $parameter_type
-     * @return PDOStatementInterface
+     * @return string
      */
     public function quote($string, $parameter_type = null);
 }
