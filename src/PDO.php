@@ -18,7 +18,7 @@ class PDO extends \PDO implements PDOInterface
         parent::__construct($dsn, $user, $password, $options);
 
         $this->setAttribute(
-            PDO::ATTR_STATEMENT_CLASS,
+            \PDO::ATTR_STATEMENT_CLASS,
             array(__NAMESPACE__ . '\\PDOStatement', array())
         );
     }
