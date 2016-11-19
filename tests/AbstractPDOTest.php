@@ -30,7 +30,9 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
 
     public function testErrorInfo()
     {
-        $this->assertEquals(array(0, null, null), $this->pdo->errorInfo());
+        $error = $this->pdo->errorInfo();
+        $this->assertInternalType('array', $error);
+        $this->assertCount(3, $error);
     }
 
     public function testExec()
@@ -57,7 +59,7 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
         $stmt = $this->pdo->prepare('SELECT 1');
         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
         $stmt->setFetchMode(\PDO::FETCH_COLUMN, 1);
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'stdClass', array());
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'stdClass', null);
         $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
     }
 
@@ -72,7 +74,7 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
         $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_COLUMN, 1);
         $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
 
-        $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_CLASS, 'stdClass', array());
+        $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_CLASS, 'stdClass', null);
         $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
     }
 
