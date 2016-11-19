@@ -23,4 +23,7 @@ script:
 after_script:
   - php vendor/bin/coveralls
 
+services:
+  - mysql
+
 sudo: false

@@ -4,17 +4,22 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOAdapter;
 
+/**
+ * @covers Emonkak\Database\PDOAdapter
+ *
+ * @requires extension sqlite3
+ */
 class PDOAdapterTest extends AbstractPDOTest
 {
     public function testGetPdo()
     {
-        $pdo = new \PDO('sqlite::memory:');
-        $adapter = new PDOAdapter($pdo);
-        $this->assertSame($pdo, $adapter->getPdo());
+        $this->assertInstanceOf('PDO', $this->pdo->getPdo());
     }
 
-    protected function providePdo()
+    protected function preparePdo()
     {
-        return new PDOAdapter(new \PDO('sqlite::memory:'));
+        return new PDOAdapter(new \PDO('sqlite::memory:', null, null, array(
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+        )));
     }
 }
