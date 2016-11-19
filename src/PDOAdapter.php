@@ -26,6 +26,14 @@ class PDOAdapter implements PDOInterface
     }
 
     /**
+     * @return \PDO
+     */
+    public function getPdo()
+    {
+        return $this->pdo;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function beginTransaction()
