@@ -4,25 +4,18 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOConnector;
 
-class PDOConnectorTest extends AbstractPDOTest
+/**
+ * @covers Emonkak\Database\AbstractConnector
+ * @covers Emonkak\Database\PDOConnector
+ *
+ * @requires extension sqlite3
+ */
+class PDOConnectorTest extends AbstractConnectorTest
 {
-    public function testIsConnected()
+    protected function preparePdo()
     {
-        $this->assertFalse($this->pdo->isConnected());
-        $this->assertInstanceOf('PDO', $this->pdo->getPdo());
-        $this->assertTrue($this->pdo->isConnected());
-
-        $this->pdo->disconnect();
-        $this->assertFalse($this->pdo->isConnected());
-    }
-
-    public function testSerialize()
-    {
-        $this->assertEquals($this->pdo, unserialize(serialize($this->pdo)));
-    }
-
-    protected function providePdo()
-    {
-        return new PDOConnector('sqlite::memory:');
+        return new PDOConnector('sqlite::memory:', null, null, array(
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+        ));
     }
 }
