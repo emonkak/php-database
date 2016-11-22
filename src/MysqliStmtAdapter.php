@@ -55,7 +55,6 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
         if ($this->result !== null) {
             $this->result->free();
         }
-        $this->stmt->close();
     }
 
     /**
