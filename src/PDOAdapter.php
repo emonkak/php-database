@@ -99,6 +99,8 @@ class PDOAdapter implements PDOInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @suppress PhanParamTooManyInternal
      */
     public function query($statement, $param1 = null, $param2 = null, $param3 = null)
     {

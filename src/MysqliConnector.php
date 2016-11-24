@@ -48,7 +48,7 @@ class MysqliConnector extends AbstractConnector
         $this->username = $username ?: ini_get('mysqli.default_user');
         $this->password = $password ?: ini_get('mysqli.pw');
         $this->dbname = $dbname;
-        $this->port = $port ?: ini_get('mysqli.default_port');
+        $this->port = $port ?: (int) ini_get('mysqli.default_port');
         $this->socket = $socket ?: ini_get('mysqli.default_socket');
     }
 
@@ -68,6 +68,8 @@ class MysqliConnector extends AbstractConnector
 
     /**
      * {@inheritDoc}
+     *
+     * @suppress PhanUndeclaredMethod
      */
     protected function doDisconnect(PDOInterface $pdo)
     {

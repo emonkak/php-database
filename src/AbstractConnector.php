@@ -8,7 +8,7 @@ namespace Emonkak\Database;
 abstract class AbstractConnector implements PDOInterface
 {
     /**
-     * @var PDOInterface
+     * @var PDOInterface|null
      */
     private $pdo;
 

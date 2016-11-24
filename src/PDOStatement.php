@@ -13,6 +13,8 @@ class PDOStatement extends \PDOStatement implements PDOStatementInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @suppress PhanParamTooManyInternal
      */
     public function setFetchMode($mode, $param1 = null, $param2 = null)
     {

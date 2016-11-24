@@ -33,7 +33,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     private $ctor_args;
 
     /**
-     * @var string[]
+     * @var string
      */
     private $bind_types = '';
 
