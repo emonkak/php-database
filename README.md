@@ -1,7 +1,7 @@
 # Emonkak\Database
 
-[![Build Status](https://travis-ci.org/emonkak/php-database.svg)](https://travis-ci.org/emonkak/php-database)
-[![Coverage Status](https://coveralls.io/repos/emonkak/php-database/badge.svg)](https://coveralls.io/r/emonkak/php-database)
+[![Build Status](https://travis-ci.org/emonkak/php-database.svg?branch=master)](https://travis-ci.org/emonkak/php-database)
+[![Coverage Status](https://coveralls.io/repos/github/emonkak/php-database/badge.svg?branch=master)](https://coveralls.io/github/emonkak/php-database?branch=master)
 
 A database abstraction interface as a subset of PDO.
 
