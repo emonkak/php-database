@@ -37,7 +37,7 @@ interface PDOStatementInterface extends \Traversable
      * Executes a prepared statement.
      *
      * @param array|null $input_parameters
-     * @return array
+     * @return boolean
      */
     public function execute($input_parameters = null);
 
@@ -47,7 +47,7 @@ interface PDOStatementInterface extends \Traversable
      * @param integer|null $fetch_style
      * @param integer|null $cursor_orientation
      * @param integer|null $cursor_offset
-     * @return array
+     * @return mixed
      */
     public function fetch($fetch_style = null, $cursor_orientation = null, $cursor_offset = null);
 
