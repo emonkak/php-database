@@ -11,7 +11,7 @@ use Emonkak\Database\PDO;
  */
 class PDOTest extends AbstractPDOTest
 {
-    public function preparePdo()
+    protected function preparePdo()
     {
         return new PDO('sqlite::memory:', null, null, array(
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
