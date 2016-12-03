@@ -55,13 +55,9 @@ class MasterSlaveConnection implements PDOInterface
      */
     public function beginTransaction()
     {
+        $result = $this->masterPdo->beginTransaction();
         $this->activePdo = $this->masterPdo;
-        try {
-            return $this->masterPdo->beginTransaction();
-        } catch (\Exception $e) {
-            $this->activePdo = $this->slavePdo;
-            throw $e;
-        }
+        return $result;
     }
 
     /**
