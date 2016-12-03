@@ -131,6 +131,8 @@ class MysqliAdapter implements PDOInterface
             $stmt->setFetchMode($param1);
         }
 
+        $stmt->execute();
+
         return $stmt;
     }
 
