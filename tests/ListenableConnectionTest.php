@@ -19,7 +19,8 @@ class ListenableConnectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->delegate = $this->getMock('Emonkak\Database\PDOInterface');
         $this->listener = $this->getMock('Emonkak\Database\PDOListenerInterface');
-        $this->pdo = new ListenableConnection($this->delegate, $this->listener);
+        $this->pdo = new ListenableConnection($this->delegate);
+        $this->pdo->addListaner($this->listener);
     }
 
     public function testDelegate()

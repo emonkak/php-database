@@ -10,18 +10,24 @@ class ListenableConnection implements PDOInterface
     private $delegate;
 
     /**
-     * @var PDOListenerInterface
+     * @var PDOListenerInterface[]
      */
-    private $listener;
+    private $listeners = array();
 
     /**
-     * @param PDOInterface         $delegate
-     * @param PDOListenerInterface $listener
+     * @param PDOInterface $delegate
      */
-    public function __construct(PDOInterface $delegate, PDOListenerInterface $listener)
+    public function __construct(PDOInterface $delegate)
     {
         $this->delegate = $delegate;
-        $this->listener = $listener;
+    }
+
+    /**
+     * @param PDOListenerInterface $listener
+     */
+    public function addListaner(PDOListenerInterface $listener)
+    {
+        $this->listeners[] = $listener;
     }
 
     /**
@@ -29,7 +35,9 @@ class ListenableConnection implements PDOInterface
      */
     public function beginTransaction()
     {
-        $this->listener->onBeginTransaction($this->delegate);
+        foreach ($this->listeners as $listener) {
+            $listener->onBeginTransaction($this->delegate);
+        }
 
         return $this->delegate->beginTransaction();
     }
@@ -39,7 +47,9 @@ class ListenableConnection implements PDOInterface
      */
     public function commit()
     {
-        $this->listener->onCommit($this->delegate);
+        foreach ($this->listeners as $listener) {
+            $listener->onCommit($this->delegate);
+        }
 
         return $this->delegate->commit();
     }
@@ -69,7 +79,11 @@ class ListenableConnection implements PDOInterface
 
         $result = $this->delegate->exec($statement);
 
-        $this->listener->onQuery($this->delegate, $statement, array(), microtime(true) - $start);
+        $elapsedTime = microtime(true) - $start;
+
+        foreach ($this->listeners as $listener) {
+            $listener->onQuery($this->delegate, $statement, array(), $elapsedTime);
+        }
 
         return $result;
     }
@@ -96,7 +110,7 @@ class ListenableConnection implements PDOInterface
     public function prepare($statement)
     {
         $stmt = $this->delegate->prepare($statement);
-        return new ListenableStatement($this->delegate, $this->listener, $stmt, $statement);
+        return new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
     }
 
     /**
@@ -108,9 +122,13 @@ class ListenableConnection implements PDOInterface
 
         $stmt = $this->delegate->query($statement, $param1, $param2, $param3);
 
-        $this->listener->onQuery($this->delegate, $statement, array(), microtime(true) - $start);
+        $elapsedTime = microtime(true) - $start;
 
-        return new ListenableStatement($this->delegate, $this->listener, $stmt, $statement);
+        foreach ($this->listeners as $listener) {
+            $listener->onQuery($this->delegate, $statement, array(), $elapsedTime);
+        }
+
+        return new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
     }
 
     /**
@@ -126,7 +144,9 @@ class ListenableConnection implements PDOInterface
      */
     public function rollback()
     {
-        $this->listener->onRollback($this->delegate);
+        foreach ($this->listeners as $listener) {
+            $listener->onRollback($this->delegate);
+        }
 
         return $this->delegate->rollback();
     }
