@@ -44,7 +44,7 @@ class ListenableStatementTest extends \PHPUnit_Framework_TestCase
             ->with(PDO::FETCH_CLASS, 'stdClass', array())
             ->willReturn(true);
 
-        $stmt = new ListenableStatement($pdo, $listener, $delegate, $queryString);
+        $stmt = new ListenableStatement($pdo, array($listener), $delegate, $queryString);
 
         $this->assertSame($delegate, $stmt->getIterator());
         $this->assertSame(123, $stmt->errorCode());
@@ -83,7 +83,7 @@ class ListenableStatementTest extends \PHPUnit_Framework_TestCase
             ->with(array(456))
             ->willReturn(true);
 
-        $stmt = new ListenableStatement($pdo, $listener, $delegate, $queryString);
+        $stmt = new ListenableStatement($pdo, array($listener), $delegate, $queryString);
 
         $this->assertTrue($stmt->bindValue(1, 123, \PDO::PARAM_INT));
         $this->assertTrue($stmt->execute(array(456)));

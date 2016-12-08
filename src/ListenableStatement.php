@@ -10,9 +10,9 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     private $pdo;
 
     /**
-     * @var PDOListenerInterface
+     * @var PDOListenerInterface[]
      */
-    private $listener;
+    private $listeners;
 
     /**
      * @var PDOStatementInterface
@@ -30,15 +30,15 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     private $bindings = array();
 
     /**
-     * @param PDOInterface          $pdo
-     * @param PDOListenerInterface  $listener
-     * @param PDOStatementInterface $delegate
-     * @param string                $queryString
+     * @param PDOInterface           $pdo
+     * @param PDOListenerInterface[] $listeners
+     * @param PDOStatementInterface  $delegate
+     * @param string                 $queryString
      */
-    public function __construct(PDOInterface $pdo, PDOListenerInterface $listener, PDOStatementInterface $delegate, $queryString)
+    public function __construct(PDOInterface $pdo, array $listeners, PDOStatementInterface $delegate, $queryString)
     {
         $this->pdo = $pdo;
-        $this->listener = $listener;
+        $this->listeners = $listeners;
         $this->delegate = $delegate;
         $this->queryString = $queryString;
     }
@@ -82,12 +82,16 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
      */
     public function execute($input_parameters = null)
     {
-        $bindings = $input_parameters !== null ? array_merge($this->bindings, $input_parameters) : $this->bindings;
         $start = microtime(true);
 
         $result = $this->delegate->execute($input_parameters);
 
-        $this->listener->onQuery($this->pdo, $this->queryString, $bindings, microtime(true) - $start);
+        $elapsedTime = microtime(true) - $start;
+        $bindings = $input_parameters !== null ? array_merge($this->bindings, $input_parameters) : $this->bindings;
+
+        foreach ($this->listeners as $listener) {
+            $listener->onQuery($this->pdo, $this->queryString, $bindings, $elapsedTime);
+        }
 
         return $result;
     }
