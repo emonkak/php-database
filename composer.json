@@ -1,7 +1,7 @@
 {
     "name": "emonkak/database",
     "description": " A database abstraction interface as a subset of PDO",
-    "license": "MIT License",
+    "license": "MIT",
     "authors": [
         {
             "name": "Shota Nozaki",
