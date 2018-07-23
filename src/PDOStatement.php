@@ -16,6 +16,28 @@ class PDOStatement extends \PDOStatement implements PDOStatementInterface
      *
      * @suppress PhanParamTooManyInternal
      */
+    public function fetchAll($fetch_style = null, $fetch_argument = null, $ctor_args = null)
+    {
+        if ($fetch_style === null) {
+            return parent::fetchAll();
+        }
+
+        if ($fetch_argument === null) {
+            return parent::fetchAll($fetch_style);
+        }
+
+        if ($ctor_args === null) {
+            return parent::fetchAll($fetch_style, $fetch_argument);
+        }
+
+        return parent::fetchAll($fetch_style, $fetch_argument, $ctor_args);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @suppress PhanParamTooManyInternal
+     */
     public function setFetchMode($mode, $param1 = null, $param2 = null)
     {
         if ($param2 !== null) {
