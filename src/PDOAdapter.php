@@ -21,7 +21,7 @@ class PDOAdapter implements PDOInterface
 
         $pdo->setAttribute(
             \PDO::ATTR_STATEMENT_CLASS,
-            array(__NAMESPACE__ . '\\PDOStatement', array())
+            [PDOStatement::class, []]
         );
     }
 

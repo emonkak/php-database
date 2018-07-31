@@ -3,6 +3,10 @@
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\ListenableConnection;
+use Emonkak\Database\ListenableStatement;
+use Emonkak\Database\PDOInterface;
+use Emonkak\Database\PDOListenerInterface;
+use Emonkak\Database\PDOStatementInterface;
 
 /**
  * @covers Emonkak\Database\ListenableConnection
@@ -17,8 +21,8 @@ class ListenableConnectionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->delegate = $this->getMock('Emonkak\Database\PDOInterface');
-        $this->listener = $this->getMock('Emonkak\Database\PDOListenerInterface');
+        $this->delegate = $this->createMock(PDOInterface::class);
+        $this->listener = $this->createMock(PDOListenerInterface::class);
         $this->pdo = new ListenableConnection($this->delegate);
         $this->pdo->addListaner($this->listener);
     }
@@ -32,7 +36,7 @@ class ListenableConnectionTest extends \PHPUnit_Framework_TestCase
         $this->delegate
             ->expects($this->once())
             ->method('errorInfo')
-            ->willReturn(array('HY000', 1, 'error'));
+            ->willReturn(['HY000', 1, 'error']);
         $this->delegate
             ->expects($this->once())
             ->method('lastInsertId')
@@ -49,7 +53,7 @@ class ListenableConnectionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->pdo->inTransaction());
         $this->assertSame(123, $this->pdo->errorCode());
-        $this->assertEquals(array('HY000', 1, 'error'), $this->pdo->errorInfo());
+        $this->assertEquals(['HY000', 1, 'error'], $this->pdo->errorInfo());
         $this->assertSame(123, $this->pdo->lastInsertId());
         $this->assertSame("'foo'", $this->pdo->quote('foo'));
     }
@@ -81,7 +85,7 @@ class ListenableConnectionTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $this->identicalTo($this->delegate),
                 'SELECT 1',
-                array(),
+                [],
                 $this->greaterThan(0)
             );
 
@@ -94,9 +98,9 @@ class ListenableConnectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('prepare')
             ->with('SELECT 1')
-            ->willReturn($this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($this->createMock(PDOStatementInterface::class));
 
-        $this->assertInstanceOf('Emonkak\Database\ListenableStatement', $this->pdo->prepare('SELECT 1'));
+        $this->assertInstanceOf(ListenableStatement::class, $this->pdo->prepare('SELECT 1'));
     }
 
     public function testQuery()
@@ -105,18 +109,18 @@ class ListenableConnectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('query')
             ->with('SELECT 1')
-            ->willReturn($stmt = $this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($stmt = $this->createMock(PDOStatementInterface::class));
         $this->listener
             ->expects($this->once())
             ->method('onQuery')
             ->with(
                 $this->identicalTo($this->delegate),
                 'SELECT 1',
-                array(),
+                [],
                 $this->greaterThan(0)
             );
 
-        $this->assertInstanceOf('Emonkak\Database\ListenableStatement', $this->pdo->query('SELECT 1'));
+        $this->assertInstanceOf(ListenableStatement::class, $this->pdo->query('SELECT 1'));
     }
 
     public function testCommit()

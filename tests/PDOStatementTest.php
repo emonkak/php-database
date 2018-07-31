@@ -6,15 +6,13 @@ use Emonkak\Database\PDO;
 
 /**
  * @covers Emonkak\Database\PDOStatement
- *
- * @requires extension sqlite3
  */
 class PDOStatementTest extends AbstractPDOStatementTest
 {
     protected function preparePdo()
     {
-        return new PDO('sqlite::memory:', null, null, array(
+        return new PDO('sqlite::memory:', null, null, [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
-        ));
+        ]);
     }
 }

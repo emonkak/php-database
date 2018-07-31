@@ -40,7 +40,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     /**
      * @var mixed[]
      */
-    private $bind_values = array();
+    private $bind_values = [];
 
     /**
      * @param \mysqli_stmt $stmt
@@ -109,11 +109,11 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
      */
     public function errorInfo()
     {
-        return array(
+        return [
             $this->stmt->sqlstate,
             $this->stmt->errno,
             $this->stmt->error,
-        );
+        ];
     }
 
     /**
@@ -122,7 +122,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     public function execute($input_parameters = null)
     {
         $bind_types = $this->bind_types;
-        $params = array(&$bind_types);
+        $params = [&$bind_types];
 
         if ($input_parameters !== null) {
             foreach ($input_parameters as $i => $_) {
@@ -135,7 +135,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
             foreach ($this->bind_values as $i => $_) {
                 $params[] = &$this->bind_values[$i];
             }
-            call_user_func_array(array($this->stmt, 'bind_param'), $params);
+            call_user_func_array([$this->stmt, 'bind_param'], $params);
         }
 
         if (!$this->stmt->execute()) {
@@ -171,7 +171,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
                 return $this->result->fetch_array(MYSQLI_NUM) ?: false;
 
             case \PDO::FETCH_CLASS:
-                $class = $cursor_orientation ?: $this->fetch_argument ?: 'stdClass';
+                $class = $cursor_orientation ?: $this->fetch_argument ?: stdClass::class;
                 $params = $cursor_offset ?: $this->ctor_args;
                 if ($params !== null) {
                     return $this->result->fetch_object($class, $params) ?: false;
@@ -193,7 +193,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     public function fetchAll($fetch_style = null, $fetch_argument = null, $ctor_args = null)
     {
         if (!$this->result) {
-            return array();
+            return [];
         }
 
         if ($fetch_style === null) {
@@ -211,9 +211,9 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
                 return $this->result->fetch_all(MYSQLI_NUM);
 
             case \PDO::FETCH_CLASS:
-                $class = $fetch_argument ?: $this->fetch_argument ?: 'stdClass';
+                $class = $fetch_argument ?: $this->fetch_argument ?: stdClass::class;
                 $params = $ctor_args ?: $this->ctor_args;
-                $rows = array();
+                $rows = [];
                 if ($params !== null) {
                     while (($row = $this->result->fetch_object($class, $params)) !== null) {
                         $rows[] = $row;
@@ -226,7 +226,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
                 return $rows;
 
             case \PDO::FETCH_COLUMN:
-                $columns = array();
+                $columns = [];
                 $column_number = $fetch_argument ?: $this->fetch_argument ?: 0;
                 while (($row = $this->result->fetch_array(MYSQLI_NUM)) !== null) {
                     if (!isset($row[$column_number])) {

@@ -7,15 +7,13 @@ use Emonkak\Database\PDOConnector;
 /**
  * @covers Emonkak\Database\AbstractConnector
  * @covers Emonkak\Database\PDOConnector
- *
- * @requires extension sqlite3
  */
 class PDOConnectorTest extends AbstractConnectorTest
 {
     protected function preparePdo()
     {
-        return new PDOConnector('sqlite::memory:', null, null, array(
+        return new PDOConnector('sqlite::memory:', null, null, [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
-        ));
+        ]);
     }
 }

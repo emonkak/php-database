@@ -6,8 +6,6 @@ use Emonkak\Database\PDOAdapter;
 
 /**
  * @covers Emonkak\Database\PDOAdapter
- *
- * @requires extension sqlite3
  */
 class PDOAdapterTest extends AbstractPDOTest
 {
@@ -18,8 +16,8 @@ class PDOAdapterTest extends AbstractPDOTest
 
     protected function preparePdo()
     {
-        return new PDOAdapter(new \PDO('sqlite::memory:', null, null, array(
+        return new PDOAdapter(new \PDO('sqlite::memory:', null, null, [
             \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
-        )));
+        ]));
     }
 }

@@ -3,6 +3,8 @@
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\MasterSlaveConnection;
+use Emonkak\Database\PDOInterface;
+use Emonkak\Database\PDOStatementInterface;
 
 /**
  * @covers Emonkak\Database\MasterSlaveConnection
@@ -17,9 +19,9 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->masterPdo = $this->getMock('Emonkak\Database\PDOInterface');
+        $this->masterPdo = $this->createMock(PDOInterface::class);
 
-        $this->slavePdo = $this->getMock('Emonkak\Database\PDOInterface');
+        $this->slavePdo = $this->createMock(PDOInterface::class);
         $this->slavePdo->expects($this->never())->method('beginTransaction');
         $this->slavePdo->expects($this->never())->method('commit');
         $this->slavePdo->expects($this->never())->method('rollback');
@@ -55,7 +57,7 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
         $this->masterPdo
             ->expects($this->once())
             ->method('errorInfo')
-            ->willReturn(array('HY000', 1, 'error'));
+            ->willReturn(['HY000', 1, 'error']);
         $this->masterPdo
             ->expects($this->once())
             ->method('exec')
@@ -73,12 +75,12 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('prepare')
             ->with('SELECT 1')
-            ->willReturn($stmt1 = $this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($stmt1 = $this->createMock(PDOStatementInterface::class));
         $this->masterPdo
             ->expects($this->once())
             ->method('query')
             ->with('SELECT 1')
-            ->willReturn($stmt2 = $this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($stmt2 = $this->createMock(PDOStatementInterface::class));
         $this->masterPdo
             ->expects($this->once())
             ->method('quote')
@@ -88,7 +90,7 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->pdo->beginTransaction());
         $this->assertTrue($this->pdo->inTransaction());
         $this->assertSame(123, $this->pdo->errorCode());
-        $this->assertEquals(array('HY000', 1, 'error'), $this->pdo->errorInfo());
+        $this->assertEquals(['HY000', 1, 'error'], $this->pdo->errorInfo());
         $this->assertSame(0, $this->pdo->exec('SELECT 1'));
         $this->assertSame(123, $this->pdo->lastInsertId());
         $this->assertSame($stmt1, $this->pdo->prepare('SELECT 1'));
@@ -115,7 +117,7 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
         $this->slavePdo
             ->expects($this->once())
             ->method('errorInfo')
-            ->willReturn(array('HY000', 1, 'error'));
+            ->willReturn(['HY000', 1, 'error']);
         $this->slavePdo
             ->expects($this->once())
             ->method('exec')
@@ -129,12 +131,12 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('prepare')
             ->with('SELECT 1')
-            ->willReturn($stmt1 = $this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($stmt1 = $this->createMock(PDOStatementInterface::class));
         $this->slavePdo
             ->expects($this->once())
             ->method('query')
             ->with('SELECT 1')
-            ->willReturn($stmt2 = $this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($stmt2 = $this->createMock(PDOStatementInterface::class));
         $this->slavePdo
             ->expects($this->once())
             ->method('quote')
@@ -146,7 +148,7 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
         } catch (\Exception $e) {
             $this->assertSame(123, $this->pdo->errorCode());
             $this->assertFalse($this->pdo->inTransaction());
-            $this->assertEquals(array('HY000', 1, 'error'), $this->pdo->errorInfo());
+            $this->assertEquals(['HY000', 1, 'error'], $this->pdo->errorInfo());
             $this->assertSame(0, $this->pdo->exec('SELECT 1'));
             $this->assertSame(123, $this->pdo->lastInsertId());
             $this->assertSame($stmt1, $this->pdo->prepare('SELECT 1'));
@@ -179,7 +181,7 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
         $this->slavePdo
             ->expects($this->once())
             ->method('errorInfo')
-            ->willReturn(array('HY000', 1, 'error'));
+            ->willReturn(['HY000', 1, 'error']);
         $this->slavePdo
             ->expects($this->once())
             ->method('exec')
@@ -193,12 +195,12 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('prepare')
             ->with('SELECT 1')
-            ->willReturn($stmt1 = $this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($stmt1 = $this->createMock(PDOStatementInterface::class));
         $this->slavePdo
             ->expects($this->once())
             ->method('query')
             ->with('SELECT 1')
-            ->willReturn($stmt2 = $this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($stmt2 = $this->createMock(PDOStatementInterface::class));
         $this->slavePdo
             ->expects($this->once())
             ->method('quote')
@@ -209,7 +211,7 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->pdo->inTransaction());
         $this->assertTrue($this->pdo->commit());
         $this->assertSame(123, $this->pdo->errorCode());
-        $this->assertEquals(array('HY000', 1, 'error'), $this->pdo->errorInfo());
+        $this->assertEquals(['HY000', 1, 'error'], $this->pdo->errorInfo());
         $this->assertSame(0, $this->pdo->exec('SELECT 1'));
         $this->assertSame(123, $this->pdo->lastInsertId());
         $this->assertSame($stmt1, $this->pdo->prepare('SELECT 1'));
@@ -239,7 +241,7 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
         $this->slavePdo
             ->expects($this->once())
             ->method('errorInfo')
-            ->willReturn(array('HY000', 1, 'error'));
+            ->willReturn(['HY000', 1, 'error']);
         $this->slavePdo
             ->expects($this->once())
             ->method('exec')
@@ -253,12 +255,12 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('prepare')
             ->with('SELECT 1')
-            ->willReturn($stmt1 = $this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($stmt1 = $this->createMock(PDOStatementInterface::class));
         $this->slavePdo
             ->expects($this->once())
             ->method('query')
             ->with('SELECT 1')
-            ->willReturn($stmt2 = $this->getMock('Emonkak\Database\PDOStatementInterface'));
+            ->willReturn($stmt2 = $this->createMock(PDOStatementInterface::class));
         $this->slavePdo
             ->expects($this->once())
             ->method('quote')
@@ -269,7 +271,7 @@ class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->pdo->inTransaction());
         $this->assertTrue($this->pdo->rollback());
         $this->assertSame(123, $this->pdo->errorCode());
-        $this->assertEquals(array('HY000', 1, 'error'), $this->pdo->errorInfo());
+        $this->assertEquals(['HY000', 1, 'error'], $this->pdo->errorInfo());
         $this->assertSame(0, $this->pdo->exec('SELECT 1'));
         $this->assertSame(123, $this->pdo->lastInsertId());
         $this->assertSame($stmt1, $this->pdo->prepare('SELECT 1'));

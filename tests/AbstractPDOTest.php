@@ -3,6 +3,7 @@
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOInterface;
+use Emonkak\Database\PDOStatementInterface;
 
 abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
 {
@@ -82,22 +83,22 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
     public function testPrepare()
     {
         $stmt = $this->pdo->prepare('SELECT 1 AS foo');
-        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
+        $this->assertInstanceOf(PDOStatementInterface::class, $stmt);
     }
 
     public function testQuery()
     {
         $stmt = $this->pdo->query('SELECT 1');
-        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
+        $this->assertInstanceOf(PDOStatementInterface::class, $stmt);
 
         $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_ASSOC);
-        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
+        $this->assertInstanceOf(PDOStatementInterface::class, $stmt);
 
         $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_COLUMN, 1);
-        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
+        $this->assertInstanceOf(PDOStatementInterface::class, $stmt);
 
-        $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_CLASS, 'Emonkak\Database\Tests\Entity', array());
-        $this->assertInstanceOf('Emonkak\Database\PDOStatementInterface', $stmt);
+        $stmt = $this->pdo->query('SELECT 1', \PDO::FETCH_CLASS, Entity::class, []);
+        $this->assertInstanceOf(PDOStatementInterface::class, $stmt);
     }
 
     public function testQuote()

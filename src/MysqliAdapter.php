@@ -73,11 +73,11 @@ class MysqliAdapter implements PDOInterface
      */
     public function errorInfo()
     {
-        return array(
+        return [
             $this->mysqli->sqlstate,
             $this->mysqli->errno,
             $this->mysqli->error,
-        );
+        ];
     }
 
     /**

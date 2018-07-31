@@ -2,12 +2,14 @@
 
 namespace Emonkak\Database\Tests;
 
+use Emonkak\Database\PDOInterface;
+
 abstract class AbstractConnectorTest extends AbstractPDOTest
 {
     public function testIsConnected()
     {
         $this->assertFalse($this->pdo->isConnected());
-        $this->assertInstanceOf('Emonkak\Database\PDOInterface', $this->pdo->getPdo());
+        $this->assertInstanceOf(PDOInterface::class, $this->pdo->getPdo());
         $this->assertTrue($this->pdo->isConnected());
 
         $this->pdo->disconnect();

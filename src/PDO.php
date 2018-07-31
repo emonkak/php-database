@@ -19,7 +19,7 @@ class PDO extends \PDO implements PDOInterface
 
         $this->setAttribute(
             \PDO::ATTR_STATEMENT_CLASS,
-            array(__NAMESPACE__ . '\\PDOStatement', array())
+            [PDOStatement::class, []]
         );
     }
 

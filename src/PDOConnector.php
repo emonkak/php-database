@@ -40,7 +40,7 @@ class PDOConnector extends AbstractConnector
 
     public function __sleep()
     {
-        return array('dsn', 'user', 'password', 'options');
+        return ['dsn', 'user', 'password', 'options'];
     }
 
     /**

@@ -54,7 +54,7 @@ class MysqliConnector extends AbstractConnector
 
     public function __sleep()
     {
-        return array('host', 'username', 'password', 'dbname', 'port', 'socket');
+        return ['host', 'username', 'password', 'dbname', 'port', 'socket'];
     }
 
     /**

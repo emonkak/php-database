@@ -27,7 +27,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     /**
      * @var mixed[]
      */
-    private $bindings = array();
+    private $bindings = [];
 
     /**
      * @param PDOInterface           $pdo

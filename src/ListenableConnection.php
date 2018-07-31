@@ -12,7 +12,7 @@ class ListenableConnection implements PDOInterface
     /**
      * @var PDOListenerInterface[]
      */
-    private $listeners = array();
+    private $listeners = [];
 
     /**
      * @param PDOInterface $delegate
@@ -82,7 +82,7 @@ class ListenableConnection implements PDOInterface
         $elapsedTime = microtime(true) - $start;
 
         foreach ($this->listeners as $listener) {
-            $listener->onQuery($this->delegate, $statement, array(), $elapsedTime);
+            $listener->onQuery($this->delegate, $statement, [], $elapsedTime);
         }
 
         return $result;
@@ -125,7 +125,7 @@ class ListenableConnection implements PDOInterface
         $elapsedTime = microtime(true) - $start;
 
         foreach ($this->listeners as $listener) {
-            $listener->onQuery($this->delegate, $statement, array(), $elapsedTime);
+            $listener->onQuery($this->delegate, $statement, [], $elapsedTime);
         }
 
         return new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
