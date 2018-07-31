@@ -93,4 +93,41 @@ class ListenableStatementTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($stmt->bindValue(1, 123, \PDO::PARAM_INT));
         $this->assertTrue($stmt->execute([456]));
     }
+
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testExecuteWithException()
+    {
+        $queryString = 'SELECT ? AS foo, ? AS bar';
+
+        $pdo = $this->createMock(PDOInterface::class);
+        $listener = $this->createMock(PDOListenerInterface::class);
+        $listener
+            ->expects($this->once())
+            ->method('onQuery')
+            ->with(
+                $this->identicalTo($pdo),
+                $queryString,
+                [123, 456],
+                $this->greaterThan(0)
+            );
+        $delegate = $this->createMock(PDOStatementInterface::class);
+        $delegate
+            ->expects($this->once())
+            ->method('bindValue')
+            ->with(1, 123, \PDO::PARAM_INT)
+            ->willReturn(true);
+        $delegate
+            ->expects($this->once())
+            ->method('execute')
+            ->with([456])
+            ->will($this->throwException(new \RuntimeException()));
+
+        $stmt = new ListenableStatement($pdo, [$listener], $delegate, $queryString);
+
+        $this->assertTrue($stmt->bindValue(1, 123, \PDO::PARAM_INT));
+
+        $stmt->execute([456]);
+    }
 }

@@ -84,16 +84,18 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     {
         $start = microtime(true);
 
-        $result = $this->delegate->execute($input_parameters);
+        try {
+            return $this->delegate->execute($input_parameters);
+        } finally {
+            $elapsedTime = microtime(true) - $start;
+            $bindings = $input_parameters !== null
+                ? array_merge($this->bindings, $input_parameters)
+                : $this->bindings;
 
-        $elapsedTime = microtime(true) - $start;
-        $bindings = $input_parameters !== null ? array_merge($this->bindings, $input_parameters) : $this->bindings;
-
-        foreach ($this->listeners as $listener) {
-            $listener->onQuery($this->pdo, $this->queryString, $bindings, $elapsedTime);
+            foreach ($this->listeners as $listener) {
+                $listener->onQuery($this->pdo, $this->queryString, $bindings, $elapsedTime);
+            }
         }
-
-        return $result;
     }
 
     /**
