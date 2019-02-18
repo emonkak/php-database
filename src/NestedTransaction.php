@@ -10,16 +10,23 @@ class NestedTransaction implements PDOTransactionInterface
     private $pdo;
 
     /**
+     * @var SavepointInterface
+     */
+    private $savepoint;
+
+    /**
      * @var integer
      */
     private $level = 0;
 
     /**
      * @param PDOInterface $pdo
+     * @param SavepointInterface $savepoint
      */
-    public function __construct(PDOInterface $pdo)
+    public function __construct(PDOInterface $pdo, SavepointInterface $savepoint)
     {
         $this->pdo = $pdo;
+        $this->savepoint = $savepoint;
     }
 
     /**
@@ -28,7 +35,7 @@ class NestedTransaction implements PDOTransactionInterface
     public function beginTransaction()
     {
         if ($this->level > 0) {
-            $this->pdo->exec('SAVEPOINT ' . $this->getSavepoint());
+            $this->savepoint->create($this->pdo, $this->getSavepoint());
             $result = true;
         } else {
             $result = $this->pdo->beginTransaction();
@@ -49,7 +56,7 @@ class NestedTransaction implements PDOTransactionInterface
         }
 
         if ($this->level > 0) {
-            $this->pdo->exec('RELEASE SAVEPOINT ' . $this->getSavepoint());
+            $this->savepoint->release($this->pdo, $this->getSavepoint());
             return true;
         } else {
             return $this->pdo->commit();
@@ -74,7 +81,7 @@ class NestedTransaction implements PDOTransactionInterface
         }
 
         if ($this->level > 0) {
-            $this->pdo->exec('ROLLBACK TO SAVEPOINT ' . $this->getSavepoint());
+            $this->savepoint->rollbackTo($this->pdo, $this->getSavepoint());
             return true;
         } else {
             return $this->pdo->rollback();

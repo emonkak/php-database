@@ -47,14 +47,11 @@ class MysqliStmtAdapterTest extends AbstractPDOStatementTest
         $this->assertFalse($adapter->execute());
     }
 
-    public function setUp()
+    public function testFetchColumnWithInvalidIndex()
     {
-        if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped();
-            return;
-        }
-
-        parent::setUp();
+        $stmt = $this->pdo->prepare('SELECT 1');
+        $this->assertTrue($stmt->execute([]));
+        $this->assertFalse($stmt->fetchColumn(1));
     }
 
     protected function preparePdo()
