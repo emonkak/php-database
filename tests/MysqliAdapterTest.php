@@ -31,16 +31,6 @@ class MysqliAdapterTest extends AbstractPDOTest
         self::$previous_report_mode = null;
     }
 
-    public function setUp()
-    {
-        if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped();
-            return;
-        }
-
-        parent::setUp();
-    }
-
     public function testGetMysqli()
     {
         $this->assertInstanceOf('mysqli', $this->pdo->getMysqli());

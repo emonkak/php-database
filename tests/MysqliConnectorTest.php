@@ -32,16 +32,6 @@ class MysqliConnectorTest extends AbstractConnectorTest
         self::$previous_report_mode = null;
     }
 
-    public function setUp()
-    {
-        if (defined('HHVM_VERSION')) {
-            $this->markTestSkipped();
-            return;
-        }
-
-        parent::setUp();
-    }
-
     protected function preparePdo()
     {
         return new MysqliConnector(

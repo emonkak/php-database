@@ -189,10 +189,8 @@ abstract class AbstractPDOStatementTest extends \PHPUnit_Framework_TestCase
             ['SELECT * FROM (SELECT 1) AS tmp WHERE 0', [], 0, false],
             ['SELECT 1 AS foo, 2 AS bar', [], 0, 1],
             ['SELECT 1 AS foo, 2 AS bar', [], 1, 2],
-            ['SELECT 1 AS foo, 2 AS bar', [], 2, false],
             ['SELECT ? AS foo, ? AS bar', [123, 456], 0, 123],
             ['SELECT ? AS foo, ? AS bar', [123, 456], 1, 456],
-            ['SELECT ? AS foo, ? AS bar', [123, 456], 2, false],
             ['SELECT 1 AS foo UNION ALL SELECT 2 AS foo UNION ALL SELECT 3 AS foo', [], 0, 1],
         ];
     }
