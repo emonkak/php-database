@@ -3,26 +3,28 @@
 namespace Emonkak\Database;
 
 /**
- * The adapter for the existing PDO instance.
+ * The adapter for PDO instance.
  */
 class PDOAdapter implements PDOInterface
 {
     /**
-     * @var \PDO
+     * @var \PDO|PDOInterface
      */
     private $pdo;
 
     /**
-     * @param \PDO $pdo
+     * @param \PDO|PDOInterface $pdo
      */
-    public function __construct(\PDO $pdo)
+    public function __construct($pdo)
     {
-        $this->pdo = $pdo;
+        if ($pdo instanceof \PDO) {
+            $pdo->setAttribute(
+                \PDO::ATTR_STATEMENT_CLASS,
+                [PDOStatement::class, []]
+            );
+        }
 
-        $pdo->setAttribute(
-            \PDO::ATTR_STATEMENT_CLASS,
-            [PDOStatement::class, []]
-        );
+        $this->pdo = $pdo;
     }
 
     /**
