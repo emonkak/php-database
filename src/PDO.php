@@ -8,10 +8,10 @@ namespace Emonkak\Database;
 class PDO extends \PDO implements PDOInterface
 {
     /**
-     * @param string      $dsn
+     * @param string $dsn
      * @param string|null $user
      * @param string|null $password
-     * @param array|null  $options
+     * @param array|null $options
      */
     public function __construct($dsn, $user = null, $password = null, array $options = null)
     {

@@ -89,7 +89,7 @@ class NestedTransaction implements PDOTransactionInterface
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getTransactionLevel()
     {

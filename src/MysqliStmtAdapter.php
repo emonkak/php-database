@@ -18,7 +18,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     private $result;
 
     /**
-     * @var integer
+     * @var int
      */
     private $fetch_style = MYSQLI_BOTH;
 
@@ -271,7 +271,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * @param integer $column_number
+     * @param int $column_number
      * @return mixed
      */
     private function doFetchColumn($column_number)

@@ -10,28 +10,28 @@ interface PDOTransactionInterface
     /**
      * Initiates a transaction.
      *
-     * @return boolean
+     * @return bool
      */
     public function beginTransaction();
 
     /**
      * Commits a transaction.
      *
-     * @return boolean
+     * @return bool
      */
     public function commit();
 
     /**
      * Checks if inside a transaction.
      *
-     * @return boolean
+     * @return bool
      */
     public function inTransaction();
 
     /**
      * Rolls back a transaction.
      *
-     * @return boolean
+     * @return bool
      */
     public function rollback();
 }

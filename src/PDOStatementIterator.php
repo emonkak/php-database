@@ -15,7 +15,7 @@ class PDOStatementIterator implements \Iterator
     private $current;
 
     /**
-     * @var integer
+     * @var int
      */
     private $index;
 

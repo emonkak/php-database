@@ -8,9 +8,9 @@ interface PDOListenerInterface
      * Query has been executed.
      *
      * @param PDOInterface $pdo
-     * @param string       $queryString
-     * @param mixed[]      $bindings
-     * @param integer      $time
+     * @param string $queryString
+     * @param mixed[] $bindings
+     * @param int $time
      */
     public function onQuery(PDOInterface $pdo, $queryString, array $bindings, $time);
 

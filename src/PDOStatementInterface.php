@@ -10,10 +10,10 @@ interface PDOStatementInterface extends \Traversable
     /**
      * Binds a value to a parameter.
      *
-     * @param mixed        $parameter
-     * @param mixed        $value
-     * @param integer|null $data_type
-     * @return boolean
+     * @param mixed $parameter
+     * @param mixed $value
+     * @param int|null $data_type
+     * @return bool
      */
     public function bindValue($parameter, $value, $data_type = null);
 
@@ -37,16 +37,16 @@ interface PDOStatementInterface extends \Traversable
      * Executes a prepared statement.
      *
      * @param array|null $input_parameters
-     * @return boolean
+     * @return bool
      */
     public function execute($input_parameters = null);
 
     /**
      * Fetches the next row from a result set.
      *
-     * @param integer|null $fetch_style
-     * @param integer|null $cursor_orientation
-     * @param integer|null $cursor_offset
+     * @param int|null $fetch_style
+     * @param int|null $cursor_orientation
+     * @param int|null $cursor_offset
      * @return mixed
      */
     public function fetch($fetch_style = null, $cursor_orientation = null, $cursor_offset = null);
@@ -54,9 +54,9 @@ interface PDOStatementInterface extends \Traversable
     /**
      * Returns an array containing all of the result set rows.
      *
-     * @param integer|null        $fetch_style
-     * @param integer|string|null $fetch_argument
-     * @param array|null          $ctor_args
+     * @param int|null $fetch_style
+     * @param int|string|null $fetch_argument
+     * @param array|null $ctor_args
      * @return array
      */
     public function fetchAll($fetch_style = null, $fetch_argument = null, $ctor_args = null);
@@ -64,7 +64,7 @@ interface PDOStatementInterface extends \Traversable
     /**
      * Returns a single column from the next row of a result set.
      *
-     * @param integer $column_number
+     * @param int $column_number
      * @return string
      */
     public function fetchColumn($column_number = 0);
@@ -72,17 +72,17 @@ interface PDOStatementInterface extends \Traversable
     /**
      * Returns the number of rows affected by the last SQL statement.
      *
-     * @return integer
+     * @return int
      */
     public function rowCount();
 
     /**
      * Returns the number of rows affected by the last SQL statement.
      *
-     * @param  integer    $mode
-     * @param  mixed|null $param1
-     * @param  mixed|null $param2
-     * @return boolean
+     * @param int $mode
+     * @param mixed|null $param1
+     * @param mixed|null $param2
+     * @return bool
      */
     public function setFetchMode($mode, $param1 = null, $param2 = null);
 }
