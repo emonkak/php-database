@@ -15,18 +15,20 @@ class NestedTransaction implements PDOTransactionInterface
     private $savepoint;
 
     /**
-     * @var integer
+     * @var NestedTransactionState
      */
-    private $level = 0;
+    private $state;
 
     /**
      * @param PDOInterface $pdo
      * @param SavepointInterface $savepoint
+     * @param ?NestedTransactionState $state
      */
-    public function __construct(PDOInterface $pdo, SavepointInterface $savepoint)
+    public function __construct(PDOInterface $pdo, SavepointInterface $savepoint, NestedTransactionState $state = null)
     {
         $this->pdo = $pdo;
         $this->savepoint = $savepoint;
+        $this->state = $state ?: new NestedTransactionState();
     }
 
     /**
@@ -34,14 +36,14 @@ class NestedTransaction implements PDOTransactionInterface
      */
     public function beginTransaction()
     {
-        if ($this->level > 0) {
+        if ($this->state->getLevel() > 0) {
             $this->savepoint->create($this->pdo, $this->getSavepoint());
             $result = true;
         } else {
             $result = $this->pdo->beginTransaction();
         }
 
-        $this->level++;
+        $this->state->incrementLevel();
 
         return $result;
     }
@@ -51,11 +53,11 @@ class NestedTransaction implements PDOTransactionInterface
      */
     public function commit()
     {
-        if ($this->level > 0) {
-            $this->level--;
+        if ($this->state->getLevel() > 0) {
+            $this->state->decrementLevel();
         }
 
-        if ($this->level > 0) {
+        if ($this->state->getLevel() > 0) {
             $this->savepoint->release($this->pdo, $this->getSavepoint());
             return true;
         } else {
@@ -68,7 +70,7 @@ class NestedTransaction implements PDOTransactionInterface
      */
     public function inTransaction()
     {
-        return $this->level > 0;
+        return $this->state->getLevel() > 0;
     }
 
     /**
@@ -76,11 +78,11 @@ class NestedTransaction implements PDOTransactionInterface
      */
     public function rollback()
     {
-        if ($this->level > 0) {
-            $this->level--;
+        if ($this->state->getLevel() > 0) {
+            $this->state->decrementLevel();
         }
 
-        if ($this->level > 0) {
+        if ($this->state->getLevel() > 0) {
             $this->savepoint->rollbackTo($this->pdo, $this->getSavepoint());
             return true;
         } else {
@@ -93,7 +95,7 @@ class NestedTransaction implements PDOTransactionInterface
      */
     public function getTransactionLevel()
     {
-        return $this->level;
+        return $this->state->getLevel();
     }
 
     /**
@@ -101,6 +103,6 @@ class NestedTransaction implements PDOTransactionInterface
      */
     private function getSavepoint()
     {
-        return 'level_' . $this->level;
+        return 'level_' . $this->state->getLevel();
     }
 }
