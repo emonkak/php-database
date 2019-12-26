@@ -29,7 +29,7 @@ abstract class AbstractConnector implements PDOInterface
     /**
      * Returns whether the connection is available.
      *
-     * @return boolean
+     * @return bool
      */
     public function isConnected()
     {

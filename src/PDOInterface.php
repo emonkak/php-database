@@ -27,7 +27,7 @@ interface PDOInterface extends PDOTransactionInterface
      * Execute an SQL statement and return the number of affected rows.
      *
      * @param string $statement
-     * @return integer
+     * @return int
      */
     public function exec($statement);
 
@@ -50,7 +50,7 @@ interface PDOInterface extends PDOTransactionInterface
     /**
      * Executes an SQL statement, returning a result set as a statement object.
      *
-     * @param string     $statement
+     * @param string $statement
      * @param mixed|null $param1
      * @param mixed|null $param2
      * @param mixed|null $param3
@@ -61,8 +61,8 @@ interface PDOInterface extends PDOTransactionInterface
     /**
      * Quotes a string for use in a query.
      *
-     * @param string       $string
-     * @param integer|null $parameter_type
+     * @param string $string
+     * @param int|null $parameter_type
      * @return string
      */
     public function quote($string, $parameter_type = null);

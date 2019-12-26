@@ -13,7 +13,7 @@ class MysqliAdapter implements PDOInterface
     private $mysqli;
 
     /**
-     * @var boolean
+     * @var bool
      */
     private $in_transaction = false;
 

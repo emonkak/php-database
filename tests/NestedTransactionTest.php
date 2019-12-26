@@ -8,6 +8,7 @@ use Emonkak\Database\SavepointInterface;
 
 /**
  * @covers Emonkak\Database\NestedTransaction
+ * @covers Emonkak\Database\NestedTransactionState
  */
 class NestedTransactionTest extends \PHPUnit_Framework_TestCase
 {

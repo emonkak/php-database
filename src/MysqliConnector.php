@@ -25,7 +25,7 @@ class MysqliConnector extends AbstractConnector
     private $dbname;
 
     /**
-     * @var integer
+     * @var int
      */
     private $port;
 
@@ -35,12 +35,12 @@ class MysqliConnector extends AbstractConnector
     private $socket;
 
     /**
-     * @param string|null  $host
-     * @param string|null  $username
-     * @param string|null  $password
-     * @param string|null  $dbname
-     * @param integer|null $port
-     * @param string|null  $socket
+     * @param string|null $host
+     * @param string|null $username
+     * @param string|null $password
+     * @param string|null $dbname
+     * @param int|null $port
+     * @param string|null $socket
      */
     public function __construct($host = null, $username = null, $password = null, $dbname = '', $port = null, $socket = null)
     {
