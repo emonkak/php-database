@@ -7,31 +7,22 @@ interface PDOListenerInterface
     /**
      * Query has been executed.
      *
-     * @param PDOInterface $pdo
-     * @param string $queryString
      * @param mixed[] $bindings
-     * @param int $time
      */
-    public function onQuery(PDOInterface $pdo, $queryString, array $bindings, $time);
+    public function onQuery(PDOInterface $pdo, string $queryString, array $bindings, float $time): void;
 
     /**
      * Transaction started.
-     *
-     * @param PDOInterface $pdo
      */
-    public function onBeginTransaction(PDOInterface $pdo);
+    public function onBeginTransaction(PDOInterface $pdo): void;
 
     /**
      * Transaction rolled back.
-     *
-     * @param PDOInterface $pdo
      */
-    public function onRollback(PDOInterface $pdo);
+    public function onRollback(PDOInterface $pdo): void;
 
     /**
      * Transaction committed.
-     *
-     * @param PDOInterface $pdo
      */
-    public function onCommit(PDOInterface $pdo);
+    public function onCommit(PDOInterface $pdo): void;
 }

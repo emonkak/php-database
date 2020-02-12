@@ -4,8 +4,9 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\PDOStatementInterface;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractPDOTest extends TestCase
 {
     protected $pdo;
 

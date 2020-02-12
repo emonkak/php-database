@@ -2,6 +2,9 @@
 
 namespace Emonkak\Database;
 
+/**
+ * @extends AbstractConnector<MysqliAdapter>
+ */
 class MysqliConnector extends AbstractConnector
 {
     /**
@@ -34,15 +37,7 @@ class MysqliConnector extends AbstractConnector
      */
     private $socket;
 
-    /**
-     * @param string|null $host
-     * @param string|null $username
-     * @param string|null $password
-     * @param string|null $dbname
-     * @param int|null $port
-     * @param string|null $socket
-     */
-    public function __construct($host = null, $username = null, $password = null, $dbname = '', $port = null, $socket = null)
+    public function __construct(?string $host = null, ?string $username = null, ?string $password = null, string $dbname = '', ?int $port = null, ?string $socket = null)
     {
         $this->host = $host ?: ini_get('mysqli.default_host');
         $this->username = $username ?: ini_get('mysqli.default_user');
@@ -60,7 +55,7 @@ class MysqliConnector extends AbstractConnector
     /**
      * {@inheritDoc}
      */
-    protected function doConnect()
+    protected function doConnect(): PDOInterface
     {
         $mysqli = new \mysqli($this->host, $this->username, $this->password, $this->dbname, $this->port, $this->socket);
         return new MysqliAdapter($mysqli);
@@ -68,10 +63,8 @@ class MysqliConnector extends AbstractConnector
 
     /**
      * {@inheritDoc}
-     *
-     * @suppress PhanUndeclaredMethod
      */
-    protected function doDisconnect(PDOInterface $pdo)
+    protected function doDisconnect(PDOInterface $pdo): void
     {
         $mysqli = $pdo->getMysqli();
         $mysqli->close();

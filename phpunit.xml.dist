@@ -9,7 +9,7 @@
     <var name="db_port" value="3306" />
   </php>
   <testsuites>
-    <testsuite>
+    <testsuite name="tests">
       <directory>./tests/</directory>
     </testsuite>
   </testsuites>

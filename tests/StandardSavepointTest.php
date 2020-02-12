@@ -4,11 +4,12 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\StandardSavepoint;
 use Emonkak\Database\PDOInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers Emonkak\Database\StandardSavepoint
  */
-class StandardSavepointTest extends \PHPUnit_Framework_TestCase
+class StandardSavepointTest extends TestCase
 {
     public function testCreate()
     {

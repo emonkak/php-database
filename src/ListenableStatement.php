@@ -30,12 +30,9 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     private $bindings = [];
 
     /**
-     * @param PDOInterface $pdo
      * @param PDOListenerInterface[] $listeners
-     * @param PDOStatementInterface $delegate
-     * @param string $queryString
      */
-    public function __construct(PDOInterface $pdo, array $listeners, PDOStatementInterface $delegate, $queryString)
+    public function __construct(PDOInterface $pdo, array $listeners, PDOStatementInterface $delegate, string $queryString)
     {
         $this->pdo = $pdo;
         $this->listeners = $listeners;

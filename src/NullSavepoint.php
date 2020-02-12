@@ -7,21 +7,21 @@ class NullSavepoint implements SavepointInterface
     /**
      * {@inheritDoc}
      */
-    public function create(PDOInterface $pdo, $name)
+    public function create(PDOInterface $pdo, string $name): void
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public function release(PDOInterface $pdo, $name)
+    public function release(PDOInterface $pdo, string $name): void
     {
     }
 
     /**
      * {@inheritDoc}
      */
-    public function rollbackTo(PDOInterface $pdo, $name)
+    public function rollbackTo(PDOInterface $pdo, string $name): void
     {
     }
 }

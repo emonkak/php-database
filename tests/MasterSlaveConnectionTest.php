@@ -5,11 +5,12 @@ namespace Emonkak\Database\Tests;
 use Emonkak\Database\MasterSlaveConnection;
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\PDOStatementInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers Emonkak\Database\MasterSlaveConnection
  */
-class MasterSlaveConnectionTest extends \PHPUnit_Framework_TestCase
+class MasterSlaveConnectionTest extends TestCase
 {
     private $masterPdo;
 

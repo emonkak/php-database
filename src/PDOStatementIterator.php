@@ -5,7 +5,7 @@ namespace Emonkak\Database;
 class PDOStatementIterator implements \Iterator
 {
     /**
-     * @var PDOStatementIterator
+     * @var PDOStatementInterface
      */
     private $stmt;
 
@@ -17,11 +17,8 @@ class PDOStatementIterator implements \Iterator
     /**
      * @var int
      */
-    private $index;
+    private $index = 0;
 
-    /**
-     * @param PDOStatementInterface $stmt
-     */
     public function __construct(PDOStatementInterface $stmt)
     {
         $this->stmt = $stmt;

@@ -19,12 +19,7 @@ class NestedTransaction implements PDOTransactionInterface
      */
     private $state;
 
-    /**
-     * @param PDOInterface $pdo
-     * @param SavepointInterface $savepoint
-     * @param ?NestedTransactionState $state
-     */
-    public function __construct(PDOInterface $pdo, SavepointInterface $savepoint, NestedTransactionState $state = null)
+    public function __construct(PDOInterface $pdo, SavepointInterface $savepoint, ?NestedTransactionState $state = null)
     {
         $this->pdo = $pdo;
         $this->savepoint = $savepoint;
@@ -37,7 +32,7 @@ class NestedTransaction implements PDOTransactionInterface
     public function beginTransaction()
     {
         if ($this->state->getLevel() > 0) {
-            $this->savepoint->create($this->pdo, $this->getSavepoint());
+            $this->savepoint->create($this->pdo, $this->getSavepointName());
             $result = true;
         } else {
             $result = $this->pdo->beginTransaction();
@@ -58,7 +53,7 @@ class NestedTransaction implements PDOTransactionInterface
         }
 
         if ($this->state->getLevel() > 0) {
-            $this->savepoint->release($this->pdo, $this->getSavepoint());
+            $this->savepoint->release($this->pdo, $this->getSavepointName());
             return true;
         } else {
             return $this->pdo->commit();
@@ -83,25 +78,19 @@ class NestedTransaction implements PDOTransactionInterface
         }
 
         if ($this->state->getLevel() > 0) {
-            $this->savepoint->rollbackTo($this->pdo, $this->getSavepoint());
+            $this->savepoint->rollbackTo($this->pdo, $this->getSavepointName());
             return true;
         } else {
             return $this->pdo->rollback();
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getTransactionLevel()
+    public function getTransactionLevel(): int
     {
         return $this->state->getLevel();
     }
 
-    /**
-     * @return string
-     */
-    private function getSavepoint()
+    private function getSavepointName(): string
     {
         return 'level_' . $this->state->getLevel();
     }

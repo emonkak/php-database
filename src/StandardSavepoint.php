@@ -7,7 +7,7 @@ class StandardSavepoint implements SavepointInterface
     /**
      * {@inheritDoc}
      */
-    public function create(PDOInterface $pdo, $name)
+    public function create(PDOInterface $pdo, string $name): void
     {
         $pdo->exec('SAVEPOINT ' . $name);
     }
@@ -15,7 +15,7 @@ class StandardSavepoint implements SavepointInterface
     /**
      * {@inheritDoc}
      */
-    public function release(PDOInterface $pdo, $name)
+    public function release(PDOInterface $pdo, string $name): void
     {
         $pdo->exec('RELEASE SAVEPOINT ' . $name);
     }
@@ -23,7 +23,7 @@ class StandardSavepoint implements SavepointInterface
     /**
      * {@inheritDoc}
      */
-    public function rollbackTo(PDOInterface $pdo, $name)
+    public function rollbackTo(PDOInterface $pdo, string $name): void
     {
         $pdo->exec('ROLLBACK TO SAVEPOINT ' . $name);
     }

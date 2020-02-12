@@ -9,34 +9,22 @@ class NestedTransactionState
      */
     private $level;
 
-    /**
-     * @param int $level
-     */
-    public function __construct($level = 0)
+    public function __construct(int $level = 0)
     {
         $this->level = $level;
     }
 
-    /**
-     * @return int
-     */
-    public function getLevel()
+    public function getLevel(): int
     {
         return $this->level;
     }
 
-    /**
-     * @return void
-     */
-    public function incrementLevel()
+    public function incrementLevel(): void
     {
         $this->level++;
     }
 
-    /**
-     * @return void
-     */
-    public function decrementLevel()
+    public function decrementLevel(): void
     {
         $this->level--;
     }

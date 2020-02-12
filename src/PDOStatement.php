@@ -13,8 +13,26 @@ class PDOStatement extends \PDOStatement implements PDOStatementInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @suppress PhanParamTooManyInternal
+     */
+    public function fetch($fetch_style = null, $cursor_orientation = null, $cursor_offset = null)
+    {
+        if ($fetch_style === null) {
+            return parent::fetch();
+        }
+
+        if ($cursor_orientation === null) {
+            return parent::fetch($fetch_style);
+        }
+
+        if ($cursor_offset === null) {
+            return parent::fetch($fetch_style, $cursor_orientation);
+        }
+
+        return parent::fetch($fetch_style, $cursor_orientation, $cursor_offset);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function fetchAll($fetch_style = null, $fetch_argument = null, $ctor_args = null)
     {
@@ -35,19 +53,17 @@ class PDOStatement extends \PDOStatement implements PDOStatementInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @suppress PhanParamTooManyInternal
      */
     public function setFetchMode($mode, $param1 = null, $param2 = null)
     {
-        if ($param2 !== null) {
-            return parent::setFetchMode($mode, $param1, $param2);
+        if ($param1 === null) {
+            return parent::setFetchMode($mode);
         }
 
-        if ($param1 !== null) {
+        if ($param2 === null) {
             return parent::setFetchMode($mode, $param1);
         }
 
-        return parent::setFetchMode($mode);
+        return parent::setFetchMode($mode, $param1, $param2);
     }
 }

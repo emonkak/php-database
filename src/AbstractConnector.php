@@ -4,21 +4,22 @@ namespace Emonkak\Database;
 
 /**
  * Represents a database connection that can be connected/disconnected.
+ *
+ * @template TPDO of PDOInterface
  */
 abstract class AbstractConnector implements PDOInterface
 {
     /**
-     * @var PDOInterface|null
+     * @var ?TPDO
      */
     private $pdo;
 
     /**
-     * Gets the PDO connection of the database. And connect to the database if
-     * not connected yet.
+     * Gets the PDO connection of the database. And connect to the database if not connected yet.
      *
-     * @return PDOInterface
+     * @return TPDO
      */
-    public function getPdo()
+    public function getPdo(): PDOInterface
     {
         if ($this->pdo === null) {
             $this->pdo = $this->doConnect();
@@ -28,10 +29,8 @@ abstract class AbstractConnector implements PDOInterface
 
     /**
      * Returns whether the connection is available.
-     *
-     * @return bool
      */
-    public function isConnected()
+    public function isConnected(): bool
     {
         return $this->pdo !== null;
     }
@@ -39,7 +38,7 @@ abstract class AbstractConnector implements PDOInterface
     /**
      * Disconnects the connection.
      */
-    public function disconnect()
+    public function disconnect(): void
     {
         if ($this->pdo !== null) {
             $this->doDisconnect($this->pdo);
@@ -122,7 +121,7 @@ abstract class AbstractConnector implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = null)
+    public function quote($string, $parameter_type = \PDO::PARAM_STR)
     {
         return $this->getPdo()->quote($string, $parameter_type);
     }
@@ -138,14 +137,14 @@ abstract class AbstractConnector implements PDOInterface
     /**
      * Connects the connection.
      *
-     * @return PDOInterface
+     * @return TPDO
      */
-    abstract protected function doConnect();
+    abstract protected function doConnect(): PDOInterface;
 
     /**
      * Disconnects the connection.
      *
-     * @param PDOInterface $pdo
+     * @param TPDO $pdo
      */
-    abstract protected function doDisconnect(PDOInterface $pdo);
+    abstract protected function doDisconnect(PDOInterface $pdo): void;
 }

@@ -4,11 +4,12 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOStatementInterface;
 use Emonkak\Database\PDOStatementIterator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers Emonkak\Database\PDOStatementIterator
  */
-class PDOStatementIteratorTest extends \PHPUnit_Framework_TestCase
+class PDOStatementIteratorTest extends TestCase
 {
     private $stmt;
 
