@@ -4,6 +4,8 @@ namespace Emonkak\Database;
 
 /**
  * The interface as a subset of PDOStatement.
+ *
+ * @implements \Traversable<mixed>
  */
 interface PDOStatementInterface extends \Traversable
 {
