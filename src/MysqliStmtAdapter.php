@@ -132,7 +132,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
             foreach ($this->bind_values as $i => $_) {
                 $params[] = &$this->bind_values[$i];
             }
-            call_user_func_array([$this->stmt, 'bind_param'], $params);
+            $this->stmt->bind_param(...$params);
         }
 
         if (!$this->stmt->execute()) {

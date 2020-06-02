@@ -36,15 +36,15 @@ abstract class AbstractPDOStatementTest extends TestCase
     {
         $stmt = $this->pdo->prepare($sql);
         $this->assertTrue($stmt->execute($input_parameters));
-        $this->assertEquals($expected, call_user_func_array([$stmt, 'fetchAll'], $fetch_args));
+        $this->assertEquals($expected, $stmt->fetchAll(...$fetch_args));
 
         $stmt = $this->pdo->prepare($sql);
-        $this->assertTrue(call_user_func_array([$stmt, 'setFetchMode'], $fetch_args));
+        $this->assertTrue($stmt->setFetchMode(...$fetch_args));
         $this->assertTrue($stmt->execute($input_parameters));
         $this->assertEquals($expected, $stmt->fetchAll());
 
         $stmt = $this->pdo->prepare($sql);
-        $this->assertTrue(call_user_func_array([$stmt, 'setFetchMode'], $fetch_args));
+        $this->assertTrue($stmt->setFetchMode(...$fetch_args));
         $this->assertTrue($stmt->execute($input_parameters));
         $this->assertEquals($expected, iterator_to_array($stmt, false));
     }
@@ -90,7 +90,7 @@ abstract class AbstractPDOStatementTest extends TestCase
     {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($input_parameters);
-        call_user_func_array([$stmt, 'fetchAll'], $fetch_args);
+        $stmt->fetchAll(...$fetch_args);
     }
 
     public function providerFetchAllThrowsRuntimeException()
@@ -121,16 +121,9 @@ abstract class AbstractPDOStatementTest extends TestCase
      */
     public function testFetch($fetch_args, $sql, $input_parameters, $expected)
     {
-        if ($fetch_args[0] !== \PDO::FETCH_CLASS) {
-            $stmt = $this->pdo->prepare($sql);
-            $this->assertTrue($stmt->execute($input_parameters));
-            $this->assertEquals($expected, call_user_func_array([$stmt, 'fetch'], $fetch_args));
-        }
-
         $stmt = $this->pdo->prepare($sql);
-        call_user_func_array([$stmt, 'setFetchMode'], $fetch_args);
         $this->assertTrue($stmt->execute($input_parameters));
-        $this->assertEquals($expected, $stmt->fetch());
+        $this->assertEquals($expected, $stmt->fetch(...$fetch_args));
     }
 
     public function providerFetch()
@@ -140,14 +133,8 @@ abstract class AbstractPDOStatementTest extends TestCase
             [[\PDO::FETCH_ASSOC], 'SELECT 1 AS foo, 2 AS bar', [], ['foo' => 1, 'bar' => 2]],
             [[\PDO::FETCH_ASSOC], 'SELECT ? AS foo, ? AS bar', [123, 456], ['foo' => 123, 'bar' => 456]],
             [[\PDO::FETCH_ASSOC], 'SELECT 1 AS foo UNION ALL SELECT 2 AS foo UNION ALL SELECT 3 AS foo', [], ['foo' => 1], ['foo' => 2], ['foo' => 3]],
-            [[\PDO::FETCH_CLASS, \stdClass::class], 'SELECT * FROM (SELECT 1) AS tmp WHERE 0', [], false],
-            [[\PDO::FETCH_CLASS, \stdClass::class], 'SELECT 1 AS foo, 2 AS bar', [], (object) ['foo' => 1, 'bar' => 2]],
-            [[\PDO::FETCH_CLASS, \stdClass::class], 'SELECT ? AS foo, ? AS bar', [123, 456], (object) ['foo' => 123, 'bar' => 456]],
-            [[\PDO::FETCH_CLASS, \stdClass::class], 'SELECT 1 AS foo UNION ALL SELECT 2 AS foo UNION ALL SELECT 3 AS foo', [], (object) ['foo' => 1], ['foo' => 2], ['foo' => 3]],
-            [[\PDO::FETCH_CLASS, Entity::class, []], 'SELECT * FROM (SELECT 1) AS tmp WHERE 0', [], false],
-            [[\PDO::FETCH_CLASS, Entity::class, []], 'SELECT 1 AS foo, 2 AS bar', [], Entity::fromArray(['foo' => 1, 'bar' => 2])],
-            [[\PDO::FETCH_CLASS, Entity::class, []], 'SELECT ? AS foo, ? AS bar', [123, 456], Entity::fromArray(['foo' => 123, 'bar' => 456])],
-            [[\PDO::FETCH_CLASS, Entity::class, []], 'SELECT 1 AS foo UNION ALL SELECT 2 AS foo UNION ALL SELECT 3 AS foo', [], Entity::fromArray(['foo' => 1], ['foo' => 2], ['foo' => 3])],
+            [[\PDO::FETCH_ASSOC, \PDO::FETCH_ORI_NEXT], 'SELECT 1 AS foo UNION ALL SELECT 2 AS foo UNION ALL SELECT 3 AS foo', [], ['foo' => 1], ['foo' => 2], ['foo' => 3]],
+            [[\PDO::FETCH_ASSOC, \PDO::FETCH_ORI_NEXT, 0], 'SELECT 1 AS foo UNION ALL SELECT 2 AS foo UNION ALL SELECT 3 AS foo', [], ['foo' => 1], ['foo' => 2], ['foo' => 3]],
             [[\PDO::FETCH_NUM], 'SELECT * FROM (SELECT 1) AS tmp WHERE 0', [], false],
             [[\PDO::FETCH_NUM], 'SELECT 1 AS foo, 2 AS bar', [], [1, 2]],
             [[\PDO::FETCH_NUM], 'SELECT ? AS foo, ? AS bar', [123, 456], [123, 456]],
