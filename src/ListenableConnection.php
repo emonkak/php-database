@@ -14,18 +14,12 @@ class ListenableConnection implements PDOInterface
      */
     private $listeners = [];
 
-    /**
-     * @param PDOInterface $delegate
-     */
     public function __construct(PDOInterface $delegate)
     {
         $this->delegate = $delegate;
     }
 
-    /**
-     * @param PDOListenerInterface $listener
-     */
-    public function addListaner(PDOListenerInterface $listener)
+    public function addListaner(PDOListenerInterface $listener): void
     {
         $this->listeners[] = $listener;
     }
@@ -110,7 +104,10 @@ class ListenableConnection implements PDOInterface
     public function prepare($statement)
     {
         $stmt = $this->delegate->prepare($statement);
-        return new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
+        if ($stmt !== false) {
+            $stmt = new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
+        }
+        return $stmt;
     }
 
     /**
@@ -122,19 +119,23 @@ class ListenableConnection implements PDOInterface
 
         $stmt = $this->delegate->query($statement, $param1, $param2, $param3);
 
-        $elapsedTime = microtime(true) - $start;
+        if ($stmt !== false) {
+            $elapsedTime = microtime(true) - $start;
 
-        foreach ($this->listeners as $listener) {
-            $listener->onQuery($this->delegate, $statement, [], $elapsedTime);
+            foreach ($this->listeners as $listener) {
+                $listener->onQuery($this->delegate, $statement, [], $elapsedTime);
+            }
+
+            $stmt = new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
         }
 
-        return new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
+        return $stmt;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = null)
+    public function quote($string, $parameter_type = \PDO::PARAM_STR)
     {
         return $this->delegate->quote($string, $parameter_type);
     }

@@ -3,8 +3,7 @@
 namespace Emonkak\Database;
 
 /**
- * Provides the switching between master DB and slave DB according to a
- * transaction state.
+ * Provides the switching between master DB and slave DB according to a transaction state.
  */
 class MasterSlaveConnection implements PDOInterface
 {
@@ -23,10 +22,6 @@ class MasterSlaveConnection implements PDOInterface
      */
     private $activePdo;
 
-    /**
-     * @param PDOInterface $masterPdo
-     * @param PDOInterface $slavePdo
-     */
     public function __construct(PDOInterface $masterPdo, PDOInterface $slavePdo)
     {
         $this->masterPdo = $masterPdo;
@@ -34,18 +29,12 @@ class MasterSlaveConnection implements PDOInterface
         $this->activePdo = $slavePdo;
     }
 
-    /**
-     * @return PDOInterface
-     */
-    public function getMasterPdo()
+    public function getMasterPdo(): PDOInterface
     {
         return $this->masterPdo;
     }
 
-    /**
-     * @return PDOInterface
-     */
-    public function getSlavePdo()
+    public function getSlavePdo(): PDOInterface
     {
         return $this->slavePdo;
     }
@@ -128,7 +117,7 @@ class MasterSlaveConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = null)
+    public function quote($string, $parameter_type = \PDO::PARAM_STR)
     {
         return $this->activePdo->quote($string, $parameter_type);
     }

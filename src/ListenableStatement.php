@@ -30,12 +30,9 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     private $bindings = [];
 
     /**
-     * @param PDOInterface $pdo
      * @param PDOListenerInterface[] $listeners
-     * @param PDOStatementInterface $delegate
-     * @param string $queryString
      */
-    public function __construct(PDOInterface $pdo, array $listeners, PDOStatementInterface $delegate, $queryString)
+    public function __construct(PDOInterface $pdo, array $listeners, PDOStatementInterface $delegate, string $queryString)
     {
         $this->pdo = $pdo;
         $this->listeners = $listeners;
@@ -44,7 +41,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getIterator()
     {
@@ -52,7 +49,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bindValue($parameter, $value, $data_type = \PDO::PARAM_STR)
     {
@@ -62,7 +59,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function errorCode()
     {
@@ -70,7 +67,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function errorInfo()
     {
@@ -78,7 +75,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function execute($input_parameters = null)
     {
@@ -99,7 +96,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetch($fetch_style = null, $cursor_orientation = null, $cursor_offset = null)
     {
@@ -107,7 +104,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetchAll($fetch_style = null, $fetch_argument = null, $ctor_args = null)
     {
@@ -115,7 +112,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function fetchColumn($column_number = 0)
     {
@@ -123,7 +120,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function rowCount()
     {
@@ -131,7 +128,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setFetchMode($mode, $param1 = null, $param2 = null)
     {

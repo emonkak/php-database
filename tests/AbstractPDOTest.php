@@ -2,10 +2,10 @@
 
 namespace Emonkak\Database\Tests;
 
-use Emonkak\Database\PDOInterface;
 use Emonkak\Database\PDOStatementInterface;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractPDOTest extends TestCase
 {
     protected $pdo;
 
@@ -21,7 +21,7 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testBeginTransactionThrowsRuntimeException()
     {
@@ -36,7 +36,7 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testCommitThrowsRuntimeException()
     {
@@ -113,7 +113,7 @@ abstract class AbstractPDOTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testRollbackThrowsRuntimeException()
     {

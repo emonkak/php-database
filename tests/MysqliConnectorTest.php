@@ -5,8 +5,8 @@ namespace Emonkak\Database\Tests;
 use Emonkak\Database\MysqliConnector;
 
 /**
- * @covers Emonkak\Database\AbstractConnector
- * @covers Emonkak\Database\MysqliConnector
+ * @covers \Emonkak\Database\AbstractConnector
+ * @covers \Emonkak\Database\MysqliConnector
  *
  * @requires extension mysqli
  */

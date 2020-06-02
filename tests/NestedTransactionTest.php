@@ -5,12 +5,13 @@ namespace Emonkak\Database\Tests;
 use Emonkak\Database\NestedTransaction;
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\SavepointInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Emonkak\Database\NestedTransaction
- * @covers Emonkak\Database\NestedTransactionState
+ * @covers \Emonkak\Database\NestedTransaction
+ * @covers \Emonkak\Database\NestedTransactionState
  */
-class NestedTransactionTest extends \PHPUnit_Framework_TestCase
+class NestedTransactionTest extends TestCase
 {
     private $pdo;
 

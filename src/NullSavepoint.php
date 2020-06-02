@@ -5,23 +5,23 @@ namespace Emonkak\Database;
 class NullSavepoint implements SavepointInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function create(PDOInterface $pdo, $name)
+    public function create(PDOInterface $pdo, string $name): void
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function release(PDOInterface $pdo, $name)
+    public function release(PDOInterface $pdo, string $name): void
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function rollbackTo(PDOInterface $pdo, $name)
+    public function rollbackTo(PDOInterface $pdo, string $name): void
     {
     }
 }

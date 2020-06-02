@@ -4,21 +4,9 @@ namespace Emonkak\Database;
 
 interface SavepointInterface
 {
-    /**
-     * @param PDOInterface $pdo
-     * @param string $name
-     */
-    public function create(PDOInterface $pdo, $name);
+    public function create(PDOInterface $pdo, string $name): void;
 
-    /**
-     * @param PDOInterface $pdo
-     * @param string $name
-     */
-    public function release(PDOInterface $pdo, $name);
+    public function release(PDOInterface $pdo, string $name): void;
 
-    /**
-     * @param PDOInterface $pdo
-     * @param string $name
-     */
-    public function rollbackTo(PDOInterface $pdo, $name);
+    public function rollbackTo(PDOInterface $pdo, string $name): void;
 }

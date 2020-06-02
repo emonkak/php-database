@@ -17,18 +17,12 @@ class MysqliAdapter implements PDOInterface
      */
     private $in_transaction = false;
 
-    /**
-     * @param \mysqli $mysqli
-     */
     public function __construct(\mysqli $mysqli)
     {
         $this->mysqli = $mysqli;
     }
 
-    /**
-     * @return \mysqli
-     */
-    public function getMysqli()
+    public function getMysqli(): \mysqli
     {
         return $this->mysqli;
     }
@@ -113,7 +107,7 @@ class MysqliAdapter implements PDOInterface
     public function prepare($statement)
     {
         $stmt = $this->mysqli->prepare($statement);
-        return new MysqliStmtAdapter($stmt);
+        return $stmt !== false ? new MysqliStmtAdapter($stmt) : false;
     }
 
     /**
@@ -123,15 +117,18 @@ class MysqliAdapter implements PDOInterface
     {
         $stmt = $this->prepare($statement);
 
-        if ($param3 !== null) {
-            $stmt->setFetchMode($param1, $param2, $param3);
-        } elseif ($param2 !== null) {
-            $stmt->setFetchMode($param1, $param2);
-        } elseif ($param1 !== null) {
-            $stmt->setFetchMode($param1);
-        }
+        if ($stmt !== false) {
+            if ($param1 === null) {
+            } elseif ($param2 === null) {
+                $stmt->setFetchMode($param1);
+            } elseif ($param3 !== null) {
+                $stmt->setFetchMode($param1, $param2);
+            } else {
+                $stmt->setFetchMode($param1, $param2, $param3);
+            }
 
-        $stmt->execute();
+            $stmt->execute();
+        }
 
         return $stmt;
     }
@@ -139,7 +136,7 @@ class MysqliAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = null)
+    public function quote($string, $parameter_type = \PDO::PARAM_STR)
     {
         return "'" . $this->mysqli->real_escape_string($string) . "'";
     }

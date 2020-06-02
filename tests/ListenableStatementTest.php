@@ -6,8 +6,12 @@ use Emonkak\Database\ListenableStatement;
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\PDOListenerInterface;
 use Emonkak\Database\PDOStatementInterface;
+use PHPUnit\Framework\TestCase;
 
-class ListenableStatementTest extends \PHPUnit_Framework_TestCase
+/**
+ * @covers \Emonkak\Database\ListenableStatement
+ */
+class ListenableStatementTest extends TestCase
 {
     public function testDelegate()
     {
@@ -95,7 +99,7 @@ class ListenableStatementTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testExecuteWithException()
     {

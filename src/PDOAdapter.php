@@ -28,7 +28,7 @@ class PDOAdapter implements PDOInterface
     }
 
     /**
-     * @return \PDO
+     * @return \PDO|PDOInterface
      */
     public function getPdo()
     {
@@ -96,35 +96,33 @@ class PDOAdapter implements PDOInterface
      */
     public function prepare($statement)
     {
+        /** @psalm-var PDOStatement|false */
         return $this->pdo->prepare($statement);
     }
 
     /**
      * {@inheritdoc}
-     *
-     * @suppress PhanParamTooManyInternal
      */
     public function query($statement, $param1 = null, $param2 = null, $param3 = null)
     {
-        if ($param3 !== null) {
-            return $this->pdo->query($statement, $param1, $param2, $param3);
+        if ($param1 === null || $param2 === null) {
+            /** @psalm-var PDOStatement|false */
+            return $this->pdo->query($statement);
         }
 
-        if ($param2 !== null) {
+        if ($param3 === null) {
+            /** @psalm-var PDOStatement|false */
             return $this->pdo->query($statement, $param1, $param2);
         }
 
-        if ($param1 !== null) {
-            return $this->pdo->query($statement, $param1);
-        }
-
-        return $this->pdo->query($statement);
+        /** @psalm-var PDOStatement|false */
+        return $this->pdo->query($statement, $param1, $param2, $param3);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = null)
+    public function quote($string, $parameter_type = \PDO::PARAM_STR)
     {
         return $this->pdo->quote($string, $parameter_type);
     }

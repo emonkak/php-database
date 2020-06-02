@@ -11,7 +11,7 @@ interface PDOInterface extends PDOTransactionInterface
      * Fetch the SQLSTATE associated with the last operation on the database
      * handle.
      *
-     * @return string|null
+     * @return ?string
      */
     public function errorCode();
 
@@ -27,14 +27,14 @@ interface PDOInterface extends PDOTransactionInterface
      * Execute an SQL statement and return the number of affected rows.
      *
      * @param string $statement
-     * @return int
+     * @return int|false
      */
     public function exec($statement);
 
     /**
      * Returns the ID of the last inserted row or sequence value.
      *
-     * @param string|null $name
+     * @param string $name
      * @return string
      */
     public function lastInsertId($name = null);
@@ -43,7 +43,7 @@ interface PDOInterface extends PDOTransactionInterface
      * Prepares a statement for execution and returns a statement object.
      *
      * @param string $statement
-     * @return PDOStatementInterface
+     * @return PDOStatementInterface|false
      */
     public function prepare($statement);
 
@@ -51,10 +51,10 @@ interface PDOInterface extends PDOTransactionInterface
      * Executes an SQL statement, returning a result set as a statement object.
      *
      * @param string $statement
-     * @param mixed|null $param1
-     * @param mixed|null $param2
-     * @param mixed|null $param3
-     * @return PDOStatementInterface
+     * @param mixed $param1
+     * @param mixed $param2
+     * @param mixed $param3
+     * @return PDOStatementInterface|false
      */
     public function query($statement, $param1 = null, $param2 = null, $param3 = null);
 
@@ -62,8 +62,8 @@ interface PDOInterface extends PDOTransactionInterface
      * Quotes a string for use in a query.
      *
      * @param string $string
-     * @param int|null $parameter_type
+     * @param int $parameter_type
      * @return string
      */
-    public function quote($string, $parameter_type = null);
+    public function quote($string, $parameter_type = \PDO::PARAM_STR);
 }
