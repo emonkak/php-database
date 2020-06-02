@@ -8,7 +8,7 @@ use Emonkak\Database\PDOStatementInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Emonkak\Database\MasterSlaveConnection
+ * @covers \Emonkak\Database\MasterSlaveConnection
  */
 class MasterSlaveConnectionTest extends TestCase
 {

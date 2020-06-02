@@ -17,17 +17,11 @@ class MysqliAdapter implements PDOInterface
      */
     private $in_transaction = false;
 
-    /**
-     * @param \mysqli $mysqli
-     */
     public function __construct(\mysqli $mysqli)
     {
         $this->mysqli = $mysqli;
     }
 
-    /**
-     * @return \mysqli
-     */
     public function getMysqli(): \mysqli
     {
         return $this->mysqli;

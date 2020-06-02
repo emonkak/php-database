@@ -7,7 +7,7 @@ use Emonkak\Database\PDOInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Emonkak\Database\NullSavepoint
+ * @covers \Emonkak\Database\NullSavepoint
  */
 class NullSavepointTest extends TestCase
 {

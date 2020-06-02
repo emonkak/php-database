@@ -5,7 +5,7 @@ namespace Emonkak\Database;
 class StandardSavepoint implements SavepointInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function create(PDOInterface $pdo, string $name): void
     {
@@ -13,7 +13,7 @@ class StandardSavepoint implements SavepointInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function release(PDOInterface $pdo, string $name): void
     {
@@ -21,7 +21,7 @@ class StandardSavepoint implements SavepointInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function rollbackTo(PDOInterface $pdo, string $name): void
     {

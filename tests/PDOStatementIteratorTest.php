@@ -7,7 +7,7 @@ use Emonkak\Database\PDOStatementIterator;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Emonkak\Database\PDOStatementIterator
+ * @covers \Emonkak\Database\PDOStatementIterator
  */
 class PDOStatementIteratorTest extends TestCase
 {

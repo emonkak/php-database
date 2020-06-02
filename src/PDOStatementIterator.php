@@ -25,7 +25,7 @@ class PDOStatementIterator implements \Iterator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function current()
     {
@@ -33,7 +33,7 @@ class PDOStatementIterator implements \Iterator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function key()
     {
@@ -41,7 +41,7 @@ class PDOStatementIterator implements \Iterator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function next()
     {
@@ -50,7 +50,7 @@ class PDOStatementIterator implements \Iterator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function rewind()
     {
@@ -59,7 +59,7 @@ class PDOStatementIterator implements \Iterator
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function valid()
     {

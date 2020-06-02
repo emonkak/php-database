@@ -6,7 +6,7 @@ use Emonkak\Database\MysqliAdapter;
 use Emonkak\Database\MysqliStmtAdapter;
 
 /**
- * @covers Emonkak\Database\MysqliStmtAdapter
+ * @covers \Emonkak\Database\MysqliStmtAdapter
  *
  * @requires extension mysqli
  */

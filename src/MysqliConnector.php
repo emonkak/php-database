@@ -53,7 +53,7 @@ class MysqliConnector extends AbstractConnector
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function doConnect(): PDOInterface
     {
@@ -62,7 +62,7 @@ class MysqliConnector extends AbstractConnector
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function doDisconnect(PDOInterface $pdo): void
     {

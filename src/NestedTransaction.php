@@ -27,7 +27,7 @@ class NestedTransaction implements PDOTransactionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function beginTransaction()
     {
@@ -44,7 +44,7 @@ class NestedTransaction implements PDOTransactionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function commit()
     {
@@ -61,7 +61,7 @@ class NestedTransaction implements PDOTransactionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function inTransaction()
     {
@@ -69,7 +69,7 @@ class NestedTransaction implements PDOTransactionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function rollback()
     {

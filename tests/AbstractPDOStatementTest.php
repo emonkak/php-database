@@ -84,7 +84,7 @@ abstract class AbstractPDOStatementTest extends TestCase
     /**
      * @dataProvider providerFetchAllThrowsRuntimeException
      *
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testFetchAllThrowsException($fetch_args, $sql, $input_parameters)
     {
@@ -107,7 +107,7 @@ abstract class AbstractPDOStatementTest extends TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testFetchAllWithInvalidFetchMode()
     {
@@ -166,7 +166,7 @@ abstract class AbstractPDOStatementTest extends TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testFetchWithInvalidFetchMode()
     {

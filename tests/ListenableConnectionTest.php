@@ -10,7 +10,7 @@ use Emonkak\Database\PDOStatementInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Emonkak\Database\ListenableConnection
+ * @covers \Emonkak\Database\ListenableConnection
  */
 class ListenableConnectionTest extends TestCase
 {

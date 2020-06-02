@@ -9,7 +9,7 @@ use Emonkak\Database\PDOStatementInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers Emonkak\Database\ListenableStatement
+ * @covers \Emonkak\Database\ListenableStatement
  */
 class ListenableStatementTest extends TestCase
 {
@@ -99,7 +99,7 @@ class ListenableStatementTest extends TestCase
     }
 
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      */
     public function testExecuteWithException()
     {

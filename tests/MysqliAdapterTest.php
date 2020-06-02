@@ -5,7 +5,7 @@ namespace Emonkak\Database\Tests;
 use Emonkak\Database\MysqliAdapter;
 
 /**
- * @covers Emonkak\Database\MysqliAdapter
+ * @covers \Emonkak\Database\MysqliAdapter
  *
  * @requires extension mysqli
  */
