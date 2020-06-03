@@ -13,9 +13,9 @@
         "ext-pdo": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0",
-        "satooshi/php-coveralls": "^2.0",
         "friendsofphp/php-cs-fixer": "^2.16",
+        "php-coveralls/php-coveralls": "^2.2",
+        "phpunit/phpunit": "^7.0",
         "vimeo/psalm": "^3.11"
     },
     "autoload": {
