@@ -8,7 +8,7 @@ abstract class AbstractPDOStatementTest extends TestCase
 {
     protected $pdo;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->pdo = $this->preparePdo();
     }
@@ -83,11 +83,10 @@ abstract class AbstractPDOStatementTest extends TestCase
 
     /**
      * @dataProvider providerFetchAllThrowsRuntimeException
-     *
-     * @expectedException \RuntimeException
      */
     public function testFetchAllThrowsException($fetch_args, $sql, $input_parameters)
     {
+        $this->expectException(\ValueError::class);
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($input_parameters);
         $stmt->fetchAll(...$fetch_args);
@@ -106,11 +105,9 @@ abstract class AbstractPDOStatementTest extends TestCase
         $this->assertEquals([], $stmt->fetchAll());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testFetchAllWithInvalidFetchMode()
     {
+        $this->expectException(\ValueError::class);
         $stmt = $this->pdo->prepare('SELECT 1');
         $stmt->execute();
         $stmt->fetchAll(-1);
@@ -152,11 +149,9 @@ abstract class AbstractPDOStatementTest extends TestCase
         $this->assertFalse($stmt->fetch());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testFetchWithInvalidFetchMode()
     {
+        $this->expectException(\ValueError::class);
         $stmt = $this->pdo->prepare('SELECT 1');
         $stmt->execute();
         $stmt->fetch(-1);
@@ -202,7 +197,7 @@ abstract class AbstractPDOStatementTest extends TestCase
         $stmt = $this->pdo->prepare('SELECT 1');
         $stmt->execute();
         $error = $stmt->errorInfo();
-        $this->assertInternalType('array', $error);
+        $this->assertIsArray($error);
         $this->assertCount(3, $error);
     }
 

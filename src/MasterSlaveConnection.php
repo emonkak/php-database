@@ -77,7 +77,7 @@ class MasterSlaveConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function exec($statement)
+    public function exec(string $statement)
     {
         return $this->activePdo->exec($statement);
     }
@@ -93,7 +93,7 @@ class MasterSlaveConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function lastInsertId($name = null)
+    public function lastInsertId(?string $name = null)
     {
         return $this->activePdo->lastInsertId();
     }
@@ -101,7 +101,7 @@ class MasterSlaveConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function prepare($statement)
+    public function prepare(string $statement, array $options = [])
     {
         return $this->activePdo->prepare($statement);
     }
@@ -109,17 +109,17 @@ class MasterSlaveConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function query($statement, $param1 = null, $param2 = null, $param3 = null)
+    public function query(string $query, ?int $fetchMode = null, ...$fetchModeArgs)
     {
-        return $this->activePdo->query($statement, $param1, $param2, $param3);
+        return $this->activePdo->query($query, $fetchMode, ...$fetchModeArgs);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = \PDO::PARAM_STR)
     {
-        return $this->activePdo->quote($string, $parameter_type);
+        return $this->activePdo->quote($string, $type);
     }
 
     /**

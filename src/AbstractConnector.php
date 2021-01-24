@@ -81,7 +81,7 @@ abstract class AbstractConnector implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function exec($statement)
+    public function exec(string $statement)
     {
         return $this->getPdo()->exec($statement);
     }
@@ -97,7 +97,7 @@ abstract class AbstractConnector implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function lastInsertId($name = null)
+    public function lastInsertId(?string $name = null)
     {
         return $this->getPdo()->lastInsertId();
     }
@@ -105,25 +105,25 @@ abstract class AbstractConnector implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function prepare($statement)
+    public function prepare(string $statement, array $options = [])
     {
-        return $this->getPdo()->prepare($statement);
+        return $this->getPdo()->prepare($statement, $options);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function query($statement, $param1 = null, $param2 = null, $param3 = null)
+    public function query(string $query, ?int $fetchMode = null, ...$fetchModeArgs)
     {
-        return $this->getPdo()->query($statement, $param1, $param2, $param3);
+        return $this->getPdo()->query($query, $fetchMode, ...$fetchModeArgs);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = \PDO::PARAM_STR)
     {
-        return $this->getPdo()->quote($string, $parameter_type);
+        return $this->getPdo()->quote($string, $type);
     }
 
     /**

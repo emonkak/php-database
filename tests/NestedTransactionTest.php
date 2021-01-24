@@ -5,6 +5,7 @@ namespace Emonkak\Database\Tests;
 use Emonkak\Database\NestedTransaction;
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\SavepointInterface;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtIndex;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,7 +20,12 @@ class NestedTransactionTest extends TestCase
 
     private $nestedTransaction;
 
-    public function setUp()
+    public static function at(int $index): InvokedAtIndex
+    {
+        return new InvokedAtIndex($index);
+    }
+
+    public function setUp(): void
     {
         $this->pdo = $this->createMock(PDOInterface::class);
         $this->savepoint = $this->createMock(SavepointInterface::class);

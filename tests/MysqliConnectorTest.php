@@ -16,7 +16,7 @@ class MysqliConnectorTest extends AbstractConnectorTest
 
     private static $previous_report_mode;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$driver = $driver = new \mysqli_driver();
         self::$previous_report_mode = $driver->report_mode;
@@ -24,7 +24,7 @@ class MysqliConnectorTest extends AbstractConnectorTest
         $driver->report_mode = MYSQLI_REPORT_ALL & ~MYSQLI_REPORT_INDEX;
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::$driver->report_mode = self::$previous_report_mode;
 

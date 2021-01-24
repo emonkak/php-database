@@ -77,7 +77,7 @@ class MysqliAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function exec($statement)
+    public function exec(string $statement)
     {
         if (!$this->mysqli->real_query($statement)) {
             return false;
@@ -96,15 +96,15 @@ class MysqliAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function lastInsertId($name = null)
+    public function lastInsertId(?string $name = null)
     {
-        return $this->mysqli->insert_id;
+        return (string)$this->mysqli->insert_id;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function prepare($statement)
+    public function prepare(string $statement, array $options = [])
     {
         $stmt = $this->mysqli->prepare($statement);
         return $stmt !== false ? new MysqliStmtAdapter($stmt) : false;
@@ -113,18 +113,13 @@ class MysqliAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function query($statement, $param1 = null, $param2 = null, $param3 = null)
+    public function query(string $query, ?int $fetchMode = null, ...$fetchModeArgs)
     {
-        $stmt = $this->prepare($statement);
+        $stmt = $this->prepare($query);
 
         if ($stmt !== false) {
-            if ($param1 === null) {
-            } elseif ($param2 === null) {
-                $stmt->setFetchMode($param1);
-            } elseif ($param3 !== null) {
-                $stmt->setFetchMode($param1, $param2);
-            } else {
-                $stmt->setFetchMode($param1, $param2, $param3);
+            if (!is_null($fetchMode)) {
+                $stmt->setFetchMode($fetchMode, ...$fetchModeArgs);
             }
 
             $stmt->execute();
@@ -136,7 +131,7 @@ class MysqliAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = \PDO::PARAM_STR)
     {
         return "'" . $this->mysqli->real_escape_string($string) . "'";
     }
