@@ -16,7 +16,7 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "php-coveralls/php-coveralls": "^2.2",
         "phpunit/phpunit": "^7.0|^9.3",
-        "vimeo/psalm": "^4.4"
+        "vimeo/psalm": "dev-master#f1123d0ccc75a2e565198c92b17b720d0f5485c4"
     },
     "autoload": {
         "psr-4": {
