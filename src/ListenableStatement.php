@@ -51,7 +51,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function bindValue(string $param, $value, int $type = \PDO::PARAM_STR)
+    public function bindValue(string $param, mixed $value, int $type = \PDO::PARAM_STR)
     {
         $this->bindings[] = $value;
 
@@ -106,7 +106,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, ...$args)
+    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$args)
     {
         return $this->delegate->FetchAll($mode, ...$args);
     }
@@ -130,7 +130,7 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function setFetchMode(int $mode, ...$args)
+    public function setFetchMode(int $mode, mixed ...$args)
     {
         return $this->delegate->setFetchMode($mode, ...$args);
     }

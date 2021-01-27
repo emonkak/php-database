@@ -113,7 +113,7 @@ class ListenableConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function query(string $query, ?int $fetchMode = null, ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
     {
         $start = microtime(true);
 

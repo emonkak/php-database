@@ -113,7 +113,7 @@ abstract class AbstractConnector implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function query(string $query, ?int $fetchMode = null, ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
     {
         return $this->getPdo()->query($query, $fetchMode, ...$fetchModeArgs);
     }

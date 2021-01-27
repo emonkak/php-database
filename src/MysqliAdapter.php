@@ -113,7 +113,7 @@ class MysqliAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function query(string $query, ?int $fetchMode = null, ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
     {
         $stmt = $this->prepare($query);
 

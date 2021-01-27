@@ -65,7 +65,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function bindValue(string $param, $value, int $type = \PDO::PARAM_STR)
+    public function bindValue(string $param, mixed $value, int $type = \PDO::PARAM_STR)
     {
         switch ($type) {
             case \PDO::PARAM_BOOL:
@@ -189,7 +189,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, ...$args)
+    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$args)
     {
         if ($this->result === null) {
             return [];
@@ -266,7 +266,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function setFetchMode(int $mode, ...$args)
+    public function setFetchMode(int $mode, mixed ...$args)
     {
         $this->fetch_style = $mode;
         $this->fetch_argument = $args[0] ?? null;

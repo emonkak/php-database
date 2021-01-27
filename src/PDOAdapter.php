@@ -103,7 +103,7 @@ class PDOAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function query(string $query, ?int $fetchMode = null, ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
     {
         if (is_null($fetchMode)) {
             /** @psalm-var PDOStatement|false */
