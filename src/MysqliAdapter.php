@@ -98,7 +98,7 @@ class MysqliAdapter implements PDOInterface
      */
     public function lastInsertId(?string $name = null)
     {
-        return (string)$this->mysqli->insert_id;
+        return (string) $this->mysqli->insert_id;
     }
 
     /**
