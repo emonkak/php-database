@@ -31,7 +31,7 @@ class ListenableStatementTest extends TestCase
         $delegate
             ->expects($this->once())
             ->method('fetch')
-            ->with(\PDO::FETCH_CLASS, stdClass::class, [])
+            ->with(\PDO::FETCH_CLASS)
             ->willReturn((object) ['foo' => 123]);
         $delegate
             ->expects($this->once())
@@ -58,7 +58,7 @@ class ListenableStatementTest extends TestCase
         $this->assertSame($delegate, $stmt->getIterator());
         $this->assertSame(123, $stmt->errorCode());
         $this->assertEquals(['HY000', 1, 'error'], $stmt->errorInfo());
-        $this->assertEquals((object) ['foo' => 123], $stmt->fetch(\PDO::FETCH_CLASS, stdClass::class, []));
+        $this->assertEquals((object) ['foo' => 123], $stmt->fetch(\PDO::FETCH_CLASS));
         $this->assertEquals([(object) ['foo' => 123]], $stmt->fetchAll(\PDO::FETCH_CLASS, stdClass::class, []));
         $this->assertSame(123, $stmt->fetchColumn(0));
         $this->assertSame(1, $stmt->rowCount());
@@ -98,9 +98,6 @@ class ListenableStatementTest extends TestCase
         $this->assertTrue($stmt->execute([456]));
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testExecuteWithException()
     {
         $queryString = 'SELECT ? AS foo, ? AS bar';
@@ -130,6 +127,7 @@ class ListenableStatementTest extends TestCase
 
         $stmt = new ListenableStatement($pdo, [$listener], $delegate, $queryString);
 
+        $this->expectException(\RuntimeException::class);
         $this->assertTrue($stmt->bindValue(1, 123, \PDO::PARAM_INT));
 
         $stmt->execute([456]);

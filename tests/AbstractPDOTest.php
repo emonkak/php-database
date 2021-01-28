@@ -9,7 +9,7 @@ abstract class AbstractPDOTest extends TestCase
 {
     protected $pdo;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->pdo = $this->preparePdo();
     }
@@ -20,11 +20,9 @@ abstract class AbstractPDOTest extends TestCase
         $this->assertTrue($this->pdo->rollback());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testBeginTransactionThrowsRuntimeException()
     {
+        $this->expectException(\RuntimeException::class);
         $this->pdo->beginTransaction();
         $this->pdo->beginTransaction();
     }
@@ -35,11 +33,9 @@ abstract class AbstractPDOTest extends TestCase
         $this->assertTrue($this->pdo->commit());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testCommitThrowsRuntimeException()
     {
+        $this->expectException(\RuntimeException::class);
         $this->pdo->commit();
     }
 
@@ -51,7 +47,7 @@ abstract class AbstractPDOTest extends TestCase
     public function testErrorInfo()
     {
         $error = $this->pdo->errorInfo();
-        $this->assertInternalType('array', $error);
+        $this->assertIsArray($error);
         $this->assertCount(3, $error);
     }
 
@@ -112,11 +108,9 @@ abstract class AbstractPDOTest extends TestCase
         $this->assertTrue($this->pdo->rollback());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testRollbackThrowsRuntimeException()
     {
+        $this->expectException(\RuntimeException::class);
         $this->pdo->rollback();
         $this->pdo->rollback();
     }

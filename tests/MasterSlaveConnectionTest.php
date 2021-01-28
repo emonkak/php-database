@@ -18,7 +18,7 @@ class MasterSlaveConnectionTest extends TestCase
 
     private $pdo;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->masterPdo = $this->createMock(PDOInterface::class);
 

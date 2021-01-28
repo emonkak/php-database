@@ -67,7 +67,7 @@ class ListenableConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function exec($statement)
+    public function exec(string $statement)
     {
         $start = microtime(true);
 
@@ -93,7 +93,7 @@ class ListenableConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function lastInsertId($name = null)
+    public function lastInsertId(?string $name = null)
     {
         return $this->delegate->lastInsertId();
     }
@@ -101,9 +101,9 @@ class ListenableConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function prepare($statement)
+    public function prepare(string $statement, array $options = [])
     {
-        $stmt = $this->delegate->prepare($statement);
+        $stmt = $this->delegate->prepare($statement, $options);
         if ($stmt !== false) {
             $stmt = new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
         }
@@ -113,20 +113,20 @@ class ListenableConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function query($statement, $param1 = null, $param2 = null, $param3 = null)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
     {
         $start = microtime(true);
 
-        $stmt = $this->delegate->query($statement, $param1, $param2, $param3);
+        $stmt = $this->delegate->query($query, $fetchMode, ...$fetchModeArgs);
 
         if ($stmt !== false) {
             $elapsedTime = microtime(true) - $start;
 
             foreach ($this->listeners as $listener) {
-                $listener->onQuery($this->delegate, $statement, [], $elapsedTime);
+                $listener->onQuery($this->delegate, $query, [], $elapsedTime);
             }
 
-            $stmt = new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
+            $stmt = new ListenableStatement($this->delegate, $this->listeners, $stmt, $query);
         }
 
         return $stmt;
@@ -135,9 +135,9 @@ class ListenableConnection implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = \PDO::PARAM_STR)
     {
-        return $this->delegate->quote($string, $parameter_type);
+        return $this->delegate->quote($string, $type);
     }
 
     /**

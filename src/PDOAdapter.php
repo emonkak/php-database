@@ -70,7 +70,7 @@ class PDOAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function exec($statement)
+    public function exec(string $statement)
     {
         return $this->pdo->exec($statement);
     }
@@ -86,7 +86,7 @@ class PDOAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function lastInsertId($name = null)
+    public function lastInsertId(?string $name = null)
     {
         return $this->pdo->lastInsertId();
     }
@@ -94,37 +94,31 @@ class PDOAdapter implements PDOInterface
     /**
      * {@inheritdoc}
      */
-    public function prepare($statement)
+    public function prepare(string $statement, array $options = [])
     {
         /** @psalm-var PDOStatement|false */
-        return $this->pdo->prepare($statement);
+        return $this->pdo->prepare($statement, $options);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function query($statement, $param1 = null, $param2 = null, $param3 = null)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
     {
-        if ($param1 === null || $param2 === null) {
+        if (is_null($fetchMode)) {
             /** @psalm-var PDOStatement|false */
-            return $this->pdo->query($statement);
+            return $this->pdo->query($query);
         }
-
-        if ($param3 === null) {
-            /** @psalm-var PDOStatement|false */
-            return $this->pdo->query($statement, $param1, $param2);
-        }
-
         /** @psalm-var PDOStatement|false */
-        return $this->pdo->query($statement, $param1, $param2, $param3);
+        return $this->pdo->query($query, $fetchMode, ...$fetchModeArgs);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameter_type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = \PDO::PARAM_STR)
     {
-        return $this->pdo->quote($string, $parameter_type);
+        return $this->pdo->quote($string, $type);
     }
 
     /**

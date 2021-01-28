@@ -51,11 +51,11 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function bindValue($parameter, $value, $data_type = \PDO::PARAM_STR)
+    public function bindValue(string $param, mixed $value, int $type = \PDO::PARAM_STR)
     {
         $this->bindings[] = $value;
 
-        return $this->delegate->bindValue($parameter, $value, $data_type);
+        return $this->delegate->bindValue($param, $value, $type);
     }
 
     /**
@@ -77,16 +77,16 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function execute($input_parameters = null)
+    public function execute(?array $params = null)
     {
         $start = microtime(true);
 
         try {
-            return $this->delegate->execute($input_parameters);
+            return $this->delegate->execute($params);
         } finally {
             $elapsedTime = microtime(true) - $start;
-            $bindings = $input_parameters !== null
-                ? array_merge($this->bindings, $input_parameters)
+            $bindings = $params !== null
+                ? array_merge($this->bindings, $params)
                 : $this->bindings;
 
             foreach ($this->listeners as $listener) {
@@ -98,25 +98,25 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function fetch($fetch_style = null, $cursor_orientation = null, $cursor_offset = null)
+    public function fetch(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, int $cursorOrientation = PDO::FETCH_ORI_NEXT, int $cursorOffset = 0)
     {
-        return $this->delegate->Fetch($fetch_style, $cursor_orientation, $cursor_offset);
+        return $this->delegate->Fetch($mode, $cursorOrientation, $cursorOffset);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function fetchAll($fetch_style = null, $fetch_argument = null, $ctor_args = null)
+    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$args)
     {
-        return $this->delegate->FetchAll($fetch_style, $fetch_argument, $ctor_args);
+        return $this->delegate->FetchAll($mode, ...$args);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function fetchColumn($column_number = 0)
+    public function fetchColumn(int $column = 0)
     {
-        return $this->delegate->fetchColumn($column_number);
+        return $this->delegate->fetchColumn($column);
     }
 
     /**
@@ -130,8 +130,8 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function setFetchMode($mode, $param1 = null, $param2 = null)
+    public function setFetchMode(int $mode, mixed ...$args)
     {
-        return $this->delegate->setFetchMode($mode, $param1, $param2);
+        return $this->delegate->setFetchMode($mode, ...$args);
     }
 }

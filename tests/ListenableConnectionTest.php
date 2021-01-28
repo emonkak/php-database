@@ -20,7 +20,7 @@ class ListenableConnectionTest extends TestCase
 
     private $pdo;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->delegate = $this->createMock(PDOInterface::class);
         $this->listener = $this->createMock(PDOListenerInterface::class);

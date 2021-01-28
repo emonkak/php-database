@@ -26,44 +26,35 @@ interface PDOInterface extends PDOTransactionInterface
     /**
      * Execute an SQL statement and return the number of affected rows.
      *
-     * @param string $statement
      * @return int|false
      */
-    public function exec($statement);
+    public function exec(string $statement);
 
     /**
      * Returns the ID of the last inserted row or sequence value.
      *
-     * @param string $name
-     * @return string
+     * @return string|false
      */
-    public function lastInsertId($name = null);
+    public function lastInsertId(?string $name = null);
 
     /**
      * Prepares a statement for execution and returns a statement object.
      *
-     * @param string $statement
      * @return PDOStatementInterface|false
      */
-    public function prepare($statement);
+    public function prepare(string $statement, array $options = []);
 
     /**
      * Executes an SQL statement, returning a result set as a statement object.
      *
-     * @param string $statement
-     * @param mixed $param1
-     * @param mixed $param2
-     * @param mixed $param3
      * @return PDOStatementInterface|false
      */
-    public function query($statement, $param1 = null, $param2 = null, $param3 = null);
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs);
 
     /**
      * Quotes a string for use in a query.
      *
-     * @param string $string
-     * @param int $parameter_type
-     * @return string
+     * @return string|false
      */
-    public function quote($string, $parameter_type = \PDO::PARAM_STR);
+    public function quote(string $string, int $type = \PDO::PARAM_STR);
 }

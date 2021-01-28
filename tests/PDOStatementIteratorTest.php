@@ -4,6 +4,7 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOStatementInterface;
 use Emonkak\Database\PDOStatementIterator;
+use PHPUnit\Framework\MockObject\Rule\InvokedAtIndex;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,10 +16,15 @@ class PDOStatementIteratorTest extends TestCase
 
     private $iterator;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->stmt = $this->createMock(PDOStatementInterface::class);
         $this->iterator = new PDOStatementIterator($this->stmt);
+    }
+
+    public static function at(int $index): InvokedAtIndex
+    {
+        return new InvokedAtIndex($index);
     }
 
     public function test()
