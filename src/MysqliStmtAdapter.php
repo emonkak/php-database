@@ -65,7 +65,7 @@ class MysqliStmtAdapter implements \IteratorAggregate, PDOStatementInterface
     /**
      * {@inheritdoc}
      */
-    public function bindValue(string $param, mixed $value, int $type = \PDO::PARAM_STR)
+    public function bindValue(string | int $param, mixed $value, int $type = \PDO::PARAM_STR)
     {
         switch ($type) {
             case \PDO::PARAM_BOOL:
