@@ -1,7 +1,9 @@
 language: php
 
 php:
-  - 8.0
+  - 8.1
+  - 8.2
+  - 8.3
 
 cache:
   directories:
@@ -13,7 +15,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - ./vendor/bin/psalm --no-progress
+  - ./vendor/bin/psalm --no-cache --no-progress
   - ./vendor/bin/php-cs-fixer fix -v --dry-run --stop-on-violation --using-cache=no
   - ./vendor/bin/phpunit --verbose --coverage-clover build/logs/clover.xml
 

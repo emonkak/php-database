@@ -28,12 +28,12 @@ class ListenableConnectionTest extends TestCase
         $this->pdo->addListaner($this->listener);
     }
 
-    public function testDelegate()
+    public function testDelegate(): void
     {
         $this->delegate
             ->expects($this->once())
             ->method('errorCode')
-            ->willReturn(123);
+            ->willReturn('123');
         $this->delegate
             ->expects($this->once())
             ->method('errorInfo')
@@ -41,7 +41,7 @@ class ListenableConnectionTest extends TestCase
         $this->delegate
             ->expects($this->once())
             ->method('lastInsertId')
-            ->willReturn(123);
+            ->willReturn('123');
         $this->delegate
             ->expects($this->once())
             ->method('inTransaction')
@@ -53,13 +53,13 @@ class ListenableConnectionTest extends TestCase
             ->willReturn("'foo'");
 
         $this->assertTrue($this->pdo->inTransaction());
-        $this->assertSame(123, $this->pdo->errorCode());
+        $this->assertSame('123', $this->pdo->errorCode());
         $this->assertEquals(['HY000', 1, 'error'], $this->pdo->errorInfo());
-        $this->assertSame(123, $this->pdo->lastInsertId());
+        $this->assertSame('123', $this->pdo->lastInsertId());
         $this->assertSame("'foo'", $this->pdo->quote('foo'));
     }
 
-    public function testBeginTransaction()
+    public function testBeginTransaction(): void
     {
         $this->delegate
             ->expects($this->once())
@@ -73,7 +73,7 @@ class ListenableConnectionTest extends TestCase
         $this->assertTrue($this->pdo->beginTransaction());
     }
 
-    public function testExec()
+    public function testExec(): void
     {
         $this->delegate
             ->expects($this->once())
@@ -93,7 +93,7 @@ class ListenableConnectionTest extends TestCase
         $this->assertSame(0, $this->pdo->exec('SELECT 1'));
     }
 
-    public function testPrepare()
+    public function testPrepare(): void
     {
         $this->delegate
             ->expects($this->once())
@@ -104,7 +104,7 @@ class ListenableConnectionTest extends TestCase
         $this->assertInstanceOf(ListenableStatement::class, $this->pdo->prepare('SELECT 1'));
     }
 
-    public function testQuery()
+    public function testQuery(): void
     {
         $this->delegate
             ->expects($this->once())
@@ -124,7 +124,7 @@ class ListenableConnectionTest extends TestCase
         $this->assertInstanceOf(ListenableStatement::class, $this->pdo->query('SELECT 1'));
     }
 
-    public function testCommit()
+    public function testCommit(): void
     {
         $this->delegate
             ->expects($this->once())
@@ -138,7 +138,7 @@ class ListenableConnectionTest extends TestCase
         $this->assertTrue($this->pdo->commit());
     }
 
-    public function testRollback()
+    public function testRollback(): void
     {
         $this->delegate
             ->expects($this->once())

@@ -4,9 +4,9 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOInterface;
 
-abstract class AbstractConnectorTest extends AbstractPDOTest
+abstract class AbstractConnectorTestCase extends AbstractPDOTestCase
 {
-    public function testIsConnected()
+    public function testIsConnected(): void
     {
         $this->assertFalse($this->pdo->isConnected());
         $this->assertInstanceOf(PDOInterface::class, $this->pdo->getPdo());
@@ -16,7 +16,7 @@ abstract class AbstractConnectorTest extends AbstractPDOTest
         $this->assertFalse($this->pdo->isConnected());
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $this->assertEquals($this->pdo, unserialize(serialize($this->pdo)));
     }

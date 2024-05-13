@@ -4,6 +4,10 @@ namespace Emonkak\Database\Tests;
 
 class Entity
 {
+    private $foo;
+
+    private $bar;
+
     public static function fromArray(array $props)
     {
         $self = new Entity();

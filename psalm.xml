@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="true"
     errorLevel="2"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
     resolveFromConfigFile="true"
+    totallyTyped="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
@@ -13,4 +15,12 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <MethodSignatureMismatch>
+            <errorLevel type="suppress">
+                <file name="src/PDO.php" />
+                <file name="src/PDOStatement.php" />
+            </errorLevel>
+        </MethodSignatureMismatch>
+    </issueHandlers>
 </psalm>

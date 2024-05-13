@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class NullSavepointTest extends TestCase
 {
-    public function testCreate()
+    public function testCreate(): void
     {
         $pdo = $this->createMock(PDOInterface::class);
         $pdo
@@ -21,7 +21,7 @@ class NullSavepointTest extends TestCase
         (new NullSavepoint())->create($pdo, $name);
     }
 
-    public function testRelease()
+    public function testRelease(): void
     {
         $pdo = $this->createMock(PDOInterface::class);
         $pdo
@@ -31,7 +31,7 @@ class NullSavepointTest extends TestCase
         (new NullSavepoint())->release($pdo, $name);
     }
 
-    public function testRollbackTo()
+    public function testRollbackTo(): void
     {
         $pdo = $this->createMock(PDOInterface::class);
         $pdo

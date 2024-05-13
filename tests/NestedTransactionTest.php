@@ -5,7 +5,6 @@ namespace Emonkak\Database\Tests;
 use Emonkak\Database\NestedTransaction;
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\SavepointInterface;
-use PHPUnit\Framework\MockObject\Rule\InvokedAtIndex;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,11 +19,6 @@ class NestedTransactionTest extends TestCase
 
     private $nestedTransaction;
 
-    public static function at(int $index): InvokedAtIndex
-    {
-        return new InvokedAtIndex($index);
-    }
-
     public function setUp(): void
     {
         $this->pdo = $this->createMock(PDOInterface::class);
@@ -32,29 +26,25 @@ class NestedTransactionTest extends TestCase
         $this->nestedTransaction = new NestedTransaction($this->pdo, $this->savepoint);
     }
 
-    public function testCommit()
+    public function testCommit(): void
     {
         $this->pdo
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('beginTransaction')
             ->willReturn(true);
         $this->pdo
-            ->expects($this->at(1))
-            ->method('commit')
-            ->willReturn(true);
-        $this->pdo
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('commit')
             ->willReturn(true);
         $this->savepoint
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('create')
             ->with(
                 $this->identicalTo($this->pdo),
                 $this->identicalTo('level_1')
             );
         $this->savepoint
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('release')
             ->with(
                 $this->identicalTo($this->pdo),
@@ -85,29 +75,25 @@ class NestedTransactionTest extends TestCase
         $this->assertFalse($this->nestedTransaction->inTransaction());
     }
 
-    public function testRollback()
+    public function testRollback(): void
     {
         $this->pdo
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('beginTransaction')
             ->willReturn(true);
         $this->pdo
-            ->expects($this->at(1))
-            ->method('rollback')
-            ->willReturn(true);
-        $this->pdo
-            ->expects($this->at(2))
+            ->expects($this->exactly(2))
             ->method('rollback')
             ->willReturn(true);
         $this->savepoint
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('create')
             ->with(
                 $this->identicalTo($this->pdo),
                 $this->identicalTo('level_1')
             );
         $this->savepoint
-            ->expects($this->at(1))
+            ->expects($this->once())
             ->method('rollbackTo')
             ->with(
                 $this->identicalTo($this->pdo),

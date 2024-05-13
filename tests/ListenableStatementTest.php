@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ListenableStatementTest extends TestCase
 {
-    public function testDelegate()
+    public function testDelegate(): void
     {
         $queryString = 'SELECT 123 AS foo';
 
@@ -23,7 +23,7 @@ class ListenableStatementTest extends TestCase
         $delegate
             ->expects($this->once())
             ->method('errorCode')
-            ->willReturn(123);
+            ->willReturn('123');
         $delegate
             ->expects($this->once())
             ->method('errorInfo')
@@ -56,7 +56,7 @@ class ListenableStatementTest extends TestCase
         $stmt = new ListenableStatement($pdo, [$listener], $delegate, $queryString);
 
         $this->assertSame($delegate, $stmt->getIterator());
-        $this->assertSame(123, $stmt->errorCode());
+        $this->assertSame('123', $stmt->errorCode());
         $this->assertEquals(['HY000', 1, 'error'], $stmt->errorInfo());
         $this->assertEquals((object) ['foo' => 123], $stmt->fetch(\PDO::FETCH_CLASS));
         $this->assertEquals([(object) ['foo' => 123]], $stmt->fetchAll(\PDO::FETCH_CLASS, stdClass::class, []));
@@ -65,7 +65,7 @@ class ListenableStatementTest extends TestCase
         $this->assertTrue($stmt->setFetchMode(\PDO::FETCH_CLASS, stdClass::class, []));
     }
 
-    public function testExecute()
+    public function testExecute(): void
     {
         $queryString = 'SELECT ? AS foo, ? AS bar';
 
@@ -98,7 +98,7 @@ class ListenableStatementTest extends TestCase
         $this->assertTrue($stmt->execute([456]));
     }
 
-    public function testExecuteWithException()
+    public function testExecuteWithException(): void
     {
         $queryString = 'SELECT ? AS foo, ? AS bar';
 

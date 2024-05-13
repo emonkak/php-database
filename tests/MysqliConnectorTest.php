@@ -3,6 +3,7 @@
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\MysqliConnector;
+use Emonkak\Database\PDOInterface;
 
 /**
  * @covers \Emonkak\Database\AbstractConnector
@@ -10,7 +11,7 @@ use Emonkak\Database\MysqliConnector;
  *
  * @requires extension mysqli
  */
-class MysqliConnectorTest extends AbstractConnectorTest
+class MysqliConnectorTest extends AbstractConnectorTestCase
 {
     private static $driver;
 
@@ -32,7 +33,7 @@ class MysqliConnectorTest extends AbstractConnectorTest
         self::$previous_report_mode = null;
     }
 
-    protected function preparePdo()
+    protected function preparePdo(): PDOInterface
     {
         return new MysqliConnector(
             $GLOBALS['db_host'],
