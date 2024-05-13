@@ -14,10 +14,22 @@ use PHPUnit\Framework\TestCase;
  */
 class ListenableConnectionTest extends TestCase
 {
+    /**
+     * @var PDOInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $delegate;
 
+    /**
+     * @var PDOListenerInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $listener;
 
+    /**
+     * @var ListenableConnection
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $pdo;
 
     public function setUp(): void

@@ -7,12 +7,14 @@ use Emonkak\Database\PDOInterface;
 
 /**
  * @covers \Emonkak\Database\PDOAdapter
+ *
+ * @extends AbstractPDOTestCase<PDOAdapter>
  */
 class PDOAdapterTest extends AbstractPDOTestCase
 {
     public function testGetPdo(): void
     {
-        $this->assertInstanceOf('PDO', $this->pdo->getPdo());
+        $this->assertInstanceOf(\PDO::class, $this->pdo->getPdo());
     }
 
     protected function preparePdo(): PDOInterface

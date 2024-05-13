@@ -8,6 +8,8 @@ use Emonkak\Database\PDOInterface;
 /**
  * @covers \Emonkak\Database\AbstractConnector
  * @covers \Emonkak\Database\PDOConnector
+ *
+ * @extends AbstractConnectorTestCase<PDOConnector>
  */
 class PDOConnectorTest extends AbstractConnectorTestCase
 {

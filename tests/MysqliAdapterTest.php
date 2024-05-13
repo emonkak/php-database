@@ -7,13 +7,20 @@ use Emonkak\Database\PDOInterface;
 
 /**
  * @covers \Emonkak\Database\MysqliAdapter
- *
  * @requires extension mysqli
+ *
+ * @extends AbstractPDOTestCase<MysqliAdapter>
  */
 class MysqliAdapterTest extends AbstractPDOTestCase
 {
+    /**
+     * @var \mysqli_driver
+     */
     private static $driver;
 
+    /**
+     * @var int
+     */
     private static $previous_report_mode;
 
     public static function setUpBeforeClass(): void
@@ -34,12 +41,12 @@ class MysqliAdapterTest extends AbstractPDOTestCase
 
     public function testGetMysqli(): void
     {
-        $this->assertInstanceOf('mysqli', $this->pdo->getMysqli());
+        $this->assertInstanceOf(\mysqli::class, $this->pdo->getMysqli());
     }
 
     public function testBeginTransactionWithFailure(): void
     {
-        $mysqli = $this->getMockBuilder('mysqli')
+        $mysqli = $this->getMockBuilder(\mysqli::class)
             ->disableOriginalConstructor()
             ->getMock();
         $mysqli
@@ -54,7 +61,7 @@ class MysqliAdapterTest extends AbstractPDOTestCase
 
     public function testExecWithFailure(): void
     {
-        $mysqli = $this->getMockBuilder('mysqli')
+        $mysqli = $this->getMockBuilder(\mysqli::class)
             ->disableOriginalConstructor()
             ->getMock();
         $mysqli

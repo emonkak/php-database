@@ -3,19 +3,13 @@
 namespace Emonkak\Database;
 
 /**
- * PDOInterface adapter for mysqli.
+ * The adapter for mysqli.
  */
 class MysqliAdapter implements PDOInterface
 {
-    /**
-     * @var \mysqli
-     */
-    private $mysqli;
+    private \mysqli $mysqli;
 
-    /**
-     * @var bool
-     */
-    private $in_transaction = false;
+    private bool $in_transaction = false;
 
     public function __construct(\mysqli $mysqli)
     {
@@ -27,10 +21,7 @@ class MysqliAdapter implements PDOInterface
         return $this->mysqli;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         if ($this->in_transaction) {
             throw new \RuntimeException('There is already an active transaction');
@@ -42,10 +33,7 @@ class MysqliAdapter implements PDOInterface
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function commit()
+    public function commit(): bool
     {
         if (!$this->in_transaction) {
             throw new \RuntimeException('There is no active transaction');
@@ -54,18 +42,12 @@ class MysqliAdapter implements PDOInterface
         return $this->mysqli->commit();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorCode()
+    public function errorCode(): ?string
     {
         return $this->mysqli->sqlstate;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorInfo()
+    public function errorInfo(): array
     {
         return [
             $this->mysqli->sqlstate,
@@ -74,46 +56,31 @@ class MysqliAdapter implements PDOInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function exec(string $statement)
+    public function exec(string $statement): int|false
     {
         if (!$this->mysqli->real_query($statement)) {
             return false;
         }
-        return max(0, $this->mysqli->affected_rows);
+        return max(0, (int) $this->mysqli->affected_rows);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->in_transaction;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function lastInsertId(?string $name = null)
+    public function lastInsertId(?string $name = null): string|false
     {
         return (string) $this->mysqli->insert_id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepare(string $statement, array $options = [])
+    public function prepare(string $query, array $options = []): PDOStatementInterface|false
     {
-        $stmt = $this->mysqli->prepare($statement);
+        $stmt = $this->mysqli->prepare($query);
         return $stmt !== false ? new MysqliStmtAdapter($stmt) : false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs): PDOStatementInterface|false
     {
         $stmt = $this->prepare($query);
 
@@ -128,18 +95,12 @@ class MysqliAdapter implements PDOInterface
         return $stmt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function quote(string $string, int $type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = \PDO::PARAM_STR): string|false
     {
         return "'" . $this->mysqli->real_escape_string($string) . "'";
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rollback()
+    public function rollback(): bool
     {
         if (!$this->in_transaction) {
             throw new \RuntimeException('There is no active transaction');

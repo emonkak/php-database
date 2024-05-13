@@ -36,7 +36,7 @@ class ListenableStatementTest extends TestCase
         $delegate
             ->expects($this->once())
             ->method('fetchAll')
-            ->with(\PDO::FETCH_CLASS, stdClass::class, [])
+            ->with(\PDO::FETCH_CLASS, \stdClass::class, [])
             ->willReturn([(object) ['foo' => 123]]);
         $delegate
             ->expects($this->once())
@@ -50,7 +50,7 @@ class ListenableStatementTest extends TestCase
         $delegate
             ->expects($this->once())
             ->method('setFetchMode')
-            ->with(\PDO::FETCH_CLASS, stdClass::class, [])
+            ->with(\PDO::FETCH_CLASS, \stdClass::class, [])
             ->willReturn(true);
 
         $stmt = new ListenableStatement($pdo, [$listener], $delegate, $queryString);
@@ -59,10 +59,10 @@ class ListenableStatementTest extends TestCase
         $this->assertSame('123', $stmt->errorCode());
         $this->assertEquals(['HY000', 1, 'error'], $stmt->errorInfo());
         $this->assertEquals((object) ['foo' => 123], $stmt->fetch(\PDO::FETCH_CLASS));
-        $this->assertEquals([(object) ['foo' => 123]], $stmt->fetchAll(\PDO::FETCH_CLASS, stdClass::class, []));
+        $this->assertEquals([(object) ['foo' => 123]], $stmt->fetchAll(\PDO::FETCH_CLASS, \stdClass::class, []));
         $this->assertSame(123, $stmt->fetchColumn(0));
         $this->assertSame(1, $stmt->rowCount());
-        $this->assertTrue($stmt->setFetchMode(\PDO::FETCH_CLASS, stdClass::class, []));
+        $this->assertTrue($stmt->setFetchMode(\PDO::FETCH_CLASS, \stdClass::class, []));
     }
 
     public function testExecute(): void

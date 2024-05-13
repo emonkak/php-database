@@ -7,6 +7,8 @@ use Emonkak\Database\PDOInterface;
 
 /**
  * @covers \Emonkak\Database\PDOStatement
+ *
+ * @extends AbstractPDOStatementTestCase<PDO>
  */
 class PDOStatementTest extends AbstractPDOStatementTestCase
 {

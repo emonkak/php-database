@@ -8,14 +8,15 @@ use Emonkak\Database\PDOInterface;
 /**
  * @covers \Emonkak\Database\AbstractConnector
  * @covers \Emonkak\Database\MysqliConnector
- *
  * @requires extension mysqli
+ *
+ * @extends AbstractConnectorTestCase<MysqliConnector>
  */
 class MysqliConnectorTest extends AbstractConnectorTestCase
 {
-    private static $driver;
+    private static \mysqli_driver $driver;
 
-    private static $previous_report_mode;
+    private static int $previous_report_mode;
 
     public static function setUpBeforeClass(): void
     {

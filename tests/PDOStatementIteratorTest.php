@@ -11,8 +11,16 @@ use PHPUnit\Framework\TestCase;
  */
 class PDOStatementIteratorTest extends TestCase
 {
+    /**
+     * @var PDOStatementInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $stmt;
 
+    /**
+     * @var PDOStatementIterator
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $iterator;
 
     public function setUp(): void

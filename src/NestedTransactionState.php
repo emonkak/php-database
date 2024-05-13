@@ -4,10 +4,7 @@ namespace Emonkak\Database;
 
 class NestedTransactionState
 {
-    /**
-     * @var int
-     */
-    private $level;
+    private int $level;
 
     public function __construct(int $level = 0)
     {

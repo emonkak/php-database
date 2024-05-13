@@ -6,8 +6,15 @@ use Emonkak\Database\PDOInterface;
 use Emonkak\Database\PDOStatementInterface;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @template TConnection of PDOInterface
+ */
 abstract class AbstractPDOTestCase extends TestCase
 {
+    /**
+     * @var TConnection
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     protected $pdo;
 
     public function setUp(): void
@@ -48,7 +55,6 @@ abstract class AbstractPDOTestCase extends TestCase
     public function testErrorInfo(): void
     {
         $error = $this->pdo->errorInfo();
-        $this->assertIsArray($error);
         $this->assertCount(3, $error);
     }
 
@@ -116,5 +122,8 @@ abstract class AbstractPDOTestCase extends TestCase
         $this->pdo->rollback();
     }
 
+    /**
+     * @return TConnection
+     */
     abstract protected function preparePdo(): PDOInterface;
 }

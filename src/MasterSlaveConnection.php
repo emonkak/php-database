@@ -3,24 +3,15 @@
 namespace Emonkak\Database;
 
 /**
- * Provides the switching between master DB and slave DB according to a transaction state.
+ * A Connection that can be switched between databases depending on read/write.
  */
 class MasterSlaveConnection implements PDOInterface
 {
-    /**
-     * @var PDOInterface
-     */
-    private $masterPdo;
+    private PDOInterface $masterPdo;
 
-    /**
-     * @var PDOInterface
-     */
-    private $slavePdo;
+    private PDOInterface $slavePdo;
 
-    /**
-     * @var PDOInterface
-     */
-    private $activePdo;
+    private PDOInterface $activePdo;
 
     public function __construct(PDOInterface $masterPdo, PDOInterface $slavePdo)
     {
@@ -39,93 +30,60 @@ class MasterSlaveConnection implements PDOInterface
         return $this->slavePdo;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         $result = $this->masterPdo->beginTransaction();
         $this->activePdo = $this->masterPdo;
         return $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function commit()
+    public function commit(): bool
     {
         $this->activePdo = $this->slavePdo;
         return $this->masterPdo->commit();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorCode()
+    public function errorCode(): ?string
     {
         return $this->activePdo->errorCode();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorInfo()
+    public function errorInfo(): array
     {
         return $this->activePdo->errorInfo();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function exec(string $statement)
+    public function exec(string $statement): int|false
     {
         return $this->activePdo->exec($statement);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->masterPdo->inTransaction();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function lastInsertId(?string $name = null)
+    public function lastInsertId(?string $name = null): string|false
     {
         return $this->activePdo->lastInsertId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepare(string $statement, array $options = [])
+    public function prepare(string $query, array $options = []): PDOStatementInterface|false
     {
-        return $this->activePdo->prepare($statement);
+        return $this->activePdo->prepare($query);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs): PDOStatementInterface|false
     {
         return $this->activePdo->query($query, $fetchMode, ...$fetchModeArgs);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function quote(string $string, int $type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = \PDO::PARAM_STR): string|false
     {
         return $this->activePdo->quote($string, $type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rollback()
+    public function rollback(): bool
     {
         $this->activePdo = $this->slavePdo;
         return $this->masterPdo->rollback();

@@ -3,11 +3,14 @@
 namespace Emonkak\Database;
 
 /**
- * The implementation of PDOStatementInterface by PDOStatement.
+ * @template TValue
+ * @template-extends \PDOStatement<TValue>
  */
 class PDOStatement extends \PDOStatement implements PDOStatementInterface
 {
     protected function __construct()
     {
+        // The constructor is required to avoid "User-supplied statement does
+        // not accept constructor arguments" exception.
     }
 }

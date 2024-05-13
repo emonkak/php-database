@@ -4,6 +4,10 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOInterface;
 
+/**
+ * @template TConnection of \Emonkak\Database\AbstractConnector
+ * @template-extends AbstractPDOTestCase<TConnection>
+ */
 abstract class AbstractConnectorTestCase extends AbstractPDOTestCase
 {
     public function testIsConnected(): void

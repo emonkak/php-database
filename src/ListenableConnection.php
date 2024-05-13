@@ -4,15 +4,12 @@ namespace Emonkak\Database;
 
 class ListenableConnection implements PDOInterface
 {
-    /**
-     * @var PDOInterface
-     */
-    private $delegate;
+    private PDOInterface $delegate;
 
     /**
      * @var PDOListenerInterface[]
      */
-    private $listeners = [];
+    private array $listeners = [];
 
     public function __construct(PDOInterface $delegate)
     {
@@ -24,10 +21,7 @@ class ListenableConnection implements PDOInterface
         $this->listeners[] = $listener;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         foreach ($this->listeners as $listener) {
             $listener->onBeginTransaction($this->delegate);
@@ -36,10 +30,7 @@ class ListenableConnection implements PDOInterface
         return $this->delegate->beginTransaction();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function commit()
+    public function commit(): bool
     {
         foreach ($this->listeners as $listener) {
             $listener->onCommit($this->delegate);
@@ -48,26 +39,17 @@ class ListenableConnection implements PDOInterface
         return $this->delegate->commit();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorCode()
+    public function errorCode(): ?string
     {
         return $this->delegate->errorCode();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorInfo()
+    public function errorInfo(): array
     {
         return $this->delegate->errorInfo();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function exec(string $statement)
+    public function exec(string $statement): int|false
     {
         $start = microtime(true);
 
@@ -82,38 +64,26 @@ class ListenableConnection implements PDOInterface
         return $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->delegate->inTransaction();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function lastInsertId(?string $name = null)
+    public function lastInsertId(?string $name = null): string|false
     {
         return $this->delegate->lastInsertId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepare(string $statement, array $options = [])
+    public function prepare(string $query, array $options = []): PDOStatementInterface|false
     {
-        $stmt = $this->delegate->prepare($statement, $options);
+        $stmt = $this->delegate->prepare($query, $options);
         if ($stmt !== false) {
-            $stmt = new ListenableStatement($this->delegate, $this->listeners, $stmt, $statement);
+            $stmt = new ListenableStatement($this->delegate, $this->listeners, $stmt, $query);
         }
         return $stmt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs): PDOStatementInterface|false
     {
         $start = microtime(true);
 
@@ -132,18 +102,12 @@ class ListenableConnection implements PDOInterface
         return $stmt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function quote(string $string, int $type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = \PDO::PARAM_STR): string|false
     {
         return $this->delegate->quote($string, $type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rollback()
+    public function rollback(): bool
     {
         foreach ($this->listeners as $listener) {
             $listener->onRollback($this->delegate);

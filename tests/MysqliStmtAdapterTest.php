@@ -8,14 +8,15 @@ use Emonkak\Database\PDOInterface;
 
 /**
  * @covers \Emonkak\Database\MysqliStmtAdapter
- *
  * @requires extension mysqli
+ *
+ * @extends AbstractPDOStatementTestCase<MysqliAdapter>
  */
 class MysqliStmtAdapterTest extends AbstractPDOStatementTestCase
 {
-    private static $driver;
+    private static \mysqli_driver $driver;
 
-    private static $previous_report_mode;
+    private static int $previous_report_mode;
 
     public static function setUpBeforeClass(): void
     {
@@ -35,7 +36,7 @@ class MysqliStmtAdapterTest extends AbstractPDOStatementTestCase
 
     public function testExecuteWithFailure(): void
     {
-        $stmt = $this->getMockBuilder('mysqli_stmt')
+        $stmt = $this->getMockBuilder(\mysqli_stmt::class)
             ->disableOriginalConstructor()
             ->getMock();
         $stmt
@@ -51,6 +52,7 @@ class MysqliStmtAdapterTest extends AbstractPDOStatementTestCase
     public function testFetchColumnWithInvalidIndex(): void
     {
         $stmt = $this->pdo->prepare('SELECT 1');
+        $this->assertNotFalse($stmt);
         $this->assertTrue($stmt->execute([]));
         $this->assertFalse($stmt->fetchColumn(1));
     }

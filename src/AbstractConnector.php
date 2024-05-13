@@ -3,21 +3,24 @@
 namespace Emonkak\Database;
 
 /**
- * Represents a database connection that can be connected/disconnected.
+ * A connectable database abstraction.
  *
- * @template TPDO of PDOInterface
+ * In this implementation, a connection to the database are deferred until
+ * needed.
+ *
+ * @template TConnection of PDOInterface
  */
 abstract class AbstractConnector implements PDOInterface
 {
     /**
-     * @var ?TPDO
+     * @var ?TConnection
      */
-    private $pdo;
+    private ?PDOInterface $pdo = null;
 
     /**
-     * Gets the PDO connection of the database. And connect to the database if not connected yet.
+     * Returns the connection, and connect to the database if not connected yet.
      *
-     * @return TPDO
+     * @return TConnection
      */
     public function getPdo(): PDOInterface
     {
@@ -36,7 +39,7 @@ abstract class AbstractConnector implements PDOInterface
     }
 
     /**
-     * Disconnects the connection.
+     * Disconnects from the database.
      */
     public function disconnect(): void
     {
@@ -46,105 +49,72 @@ abstract class AbstractConnector implements PDOInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         return $this->getPdo()->beginTransaction();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function commit()
+    public function commit(): bool
     {
         return $this->getPdo()->commit();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorCode()
+    public function errorCode(): ?string
     {
         return $this->getPdo()->errorCode();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorInfo()
+    public function errorInfo(): array
     {
         return $this->getPdo()->errorInfo();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function exec(string $statement)
+    public function exec(string $statement): int|false
     {
         return $this->getPdo()->exec($statement);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->getPdo()->inTransaction();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function lastInsertId(?string $name = null)
+    public function lastInsertId(?string $name = null): string|false
     {
         return $this->getPdo()->lastInsertId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepare(string $statement, array $options = [])
+    public function prepare(string $query, array $options = []): PDOStatementInterface|false
     {
-        return $this->getPdo()->prepare($statement, $options);
+        return $this->getPdo()->prepare($query, $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs): PDOStatementInterface|false
     {
         return $this->getPdo()->query($query, $fetchMode, ...$fetchModeArgs);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function quote(string $string, int $type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = PDO::PARAM_STR): string|false
     {
         return $this->getPdo()->quote($string, $type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rollback()
+    public function rollBack(): bool
     {
         return $this->getPdo()->rollback();
     }
 
     /**
-     * Connects the connection.
+     * Connects to the database.
      *
-     * @return TPDO
+     * @return TConnection
      */
     abstract protected function doConnect(): PDOInterface;
 
     /**
-     * Disconnects the connection.
+     * Disconnects the connection to the database.
      *
-     * @param TPDO $pdo
+     * @param TConnection $pdo
      */
     abstract protected function doDisconnect(PDOInterface $pdo): void;
 }

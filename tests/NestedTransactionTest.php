@@ -13,10 +13,22 @@ use PHPUnit\Framework\TestCase;
  */
 class NestedTransactionTest extends TestCase
 {
+    /**
+     * @var PDOInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $pdo;
 
+    /**
+     * @var SavepointInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $savepoint;
 
+    /**
+     * @var NestedTransaction
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $nestedTransaction;
 
     public function setUp(): void

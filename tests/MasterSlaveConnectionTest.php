@@ -12,10 +12,22 @@ use PHPUnit\Framework\TestCase;
  */
 class MasterSlaveConnectionTest extends TestCase
 {
+    /**
+     * @var PDOInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $masterPdo;
 
+    /**
+     * @var PDOInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $slavePdo;
 
+    /**
+     * @var MasterSlaveConnection
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $pdo;
 
     public function setUp(): void

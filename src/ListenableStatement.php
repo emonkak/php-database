@@ -2,32 +2,23 @@
 
 namespace Emonkak\Database;
 
+/**
+ * @implements \IteratorAggregate<mixed,mixed>
+ */
 class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
 {
-    /**
-     * @var PDOInterface
-     */
-    private $pdo;
+    private PDOInterface $pdo;
 
     /**
      * @var PDOListenerInterface[]
      */
-    private $listeners;
+    private array $listeners;
 
-    /**
-     * @var PDOStatementInterface
-     */
-    private $delegate;
+    private PDOStatementInterface $delegate;
 
-    /**
-     * @var string
-     */
-    private $queryString;
+    private string $queryString;
 
-    /**
-     * @var mixed[]
-     */
-    private $bindings = [];
+    private array $bindings = [];
 
     /**
      * @param PDOListenerInterface[] $listeners
@@ -40,44 +31,29 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
         $this->queryString = $queryString;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return $this->delegate;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function bindValue(string | int $param, mixed $value, int $type = \PDO::PARAM_STR)
+    public function bindValue(string|int $param, mixed $value, int $type = \PDO::PARAM_STR): bool
     {
         $this->bindings[] = $value;
 
         return $this->delegate->bindValue($param, $value, $type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorCode()
+    public function errorCode(): ?string
     {
         return $this->delegate->errorCode();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorInfo()
+    public function errorInfo(): array
     {
         return $this->delegate->errorInfo();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function execute(?array $params = null)
+    public function execute(?array $params = null): bool
     {
         $start = microtime(true);
 
@@ -95,42 +71,27 @@ class ListenableStatement implements \IteratorAggregate, PDOStatementInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fetch(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, int $cursorOrientation = PDO::FETCH_ORI_NEXT, int $cursorOffset = 0)
+    public function fetch(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, int $cursorOrientation = PDO::FETCH_ORI_NEXT, int $cursorOffset = 0): mixed
     {
         return $this->delegate->Fetch($mode, $cursorOrientation, $cursorOffset);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$args)
+    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$args): array
     {
         return $this->delegate->FetchAll($mode, ...$args);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fetchColumn(int $column = 0)
+    public function fetchColumn(int $column = 0): mixed
     {
         return $this->delegate->fetchColumn($column);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rowCount()
+    public function rowCount(): int
     {
         return $this->delegate->rowCount();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setFetchMode(int $mode, mixed ...$args)
+    public function setFetchMode(int $mode, mixed ...$args): bool
     {
         return $this->delegate->setFetchMode($mode, ...$args);
     }
