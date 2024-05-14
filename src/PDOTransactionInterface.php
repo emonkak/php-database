@@ -3,35 +3,27 @@
 namespace Emonkak\Database;
 
 /**
- * Represents the database transaction handling.
+ * Provides the operations for database transaction.
  */
 interface PDOTransactionInterface
 {
     /**
      * Initiates a transaction.
-     *
-     * @return bool
      */
-    public function beginTransaction();
+    public function beginTransaction(): bool;
 
     /**
      * Commits a transaction.
-     *
-     * @return bool
      */
-    public function commit();
+    public function commit(): bool;
 
     /**
      * Checks if inside a transaction.
-     *
-     * @return bool
      */
-    public function inTransaction();
+    public function inTransaction(): bool;
 
     /**
      * Rolls back a transaction.
-     *
-     * @return bool
      */
-    public function rollback();
+    public function rollback(): bool;
 }

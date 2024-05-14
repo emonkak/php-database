@@ -2,66 +2,45 @@
 
 namespace Emonkak\Database;
 
+/**
+ * @implements \Iterator<mixed,mixed>
+ */
 class PDOStatementIterator implements \Iterator
 {
-    /**
-     * @var PDOStatementInterface
-     */
-    private $stmt;
+    private PDOStatementInterface $stmt;
 
-    /**
-     * @var mixed
-     */
-    private $current;
+    private mixed $current;
 
-    /**
-     * @var int
-     */
-    private $index = 0;
+    private int $index = 0;
 
     public function __construct(PDOStatementInterface $stmt)
     {
         $this->stmt = $stmt;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function current()
+    public function current(): mixed
     {
         return $this->current;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function key()
+    public function key(): mixed
     {
         return $this->index;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function next()
+    public function next(): void
     {
         $this->current = $this->stmt->fetch();
         $this->index++;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rewind()
+    public function rewind(): void
     {
         $this->current = $this->stmt->fetch();
         $this->index = 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function valid()
+    public function valid(): bool
     {
         return $this->current !== false;
     }

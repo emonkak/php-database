@@ -5,72 +5,56 @@ namespace Emonkak\Database;
 /**
  * The interface as a subset of PDOStatement.
  *
- * @implements \Traversable<mixed>
+ * @extends \Traversable<mixed,mixed>
  */
 interface PDOStatementInterface extends \Traversable
 {
     /**
      * Binds a value to a parameter.
-     *
-     * @return bool
      */
-    public function bindValue(string | int $param, mixed $value, int $type = \PDO::PARAM_STR);
+    public function bindValue(string|int $param, mixed $value, int $type = \PDO::PARAM_STR): bool;
 
     /**
      * Fetch the SQLSTATE associated with the last operation on the statement
      * handle.
-     *
-     * @return string
      */
-    public function errorCode();
+    public function errorCode(): ?string;
 
     /**
      * Fetch extended error information associated with the last operation on
      * the database handle.
-     *
-     * @return array
      */
-    public function errorInfo();
+    public function errorInfo(): array;
 
     /**
      * Executes a prepared statement.
-     *
-     * @return bool
      */
-    public function execute(?array $params = null);
+    public function execute(?array $params = null): bool;
 
     /**
      * Fetches the next row from a result set.
-     *
-     * @return mixed
      */
-    public function fetch(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, int $cursorOrientation = PDO::FETCH_ORI_NEXT, int $cursorOffset = 0);
+    public function fetch(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, int $cursorOrientation = PDO::FETCH_ORI_NEXT, int $cursorOffset = 0): mixed;
 
     /**
      * Returns an array containing all of the result set rows.
-     *
-     * @return array
      */
-    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$args);
+    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$args): array;
 
     /**
      * Returns a single column from the next row of a result set.
-     *
-     * @return string|false
      */
-    public function fetchColumn(int $column = 0);
+    public function fetchColumn(int $column = 0): mixed;
+
+    /**
+     * Returns the number of rows affected by the last SQL statement.
+     */
+    public function rowCount(): int;
 
     /**
      * Returns the number of rows affected by the last SQL statement.
      *
-     * @return int
-     */
-    public function rowCount();
-
-    /**
-     * Returns the number of rows affected by the last SQL statement.
-     *
-     * @return bool
+     * @return true
      */
     public function setFetchMode(int $mode, mixed ...$args);
 }

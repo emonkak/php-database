@@ -4,17 +4,19 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\MysqliAdapter;
 use Emonkak\Database\MysqliStmtAdapter;
+use Emonkak\Database\PDOInterface;
 
 /**
  * @covers \Emonkak\Database\MysqliStmtAdapter
- *
  * @requires extension mysqli
+ *
+ * @extends AbstractPDOStatementTestCase<MysqliAdapter>
  */
-class MysqliStmtAdapterTest extends AbstractPDOStatementTest
+class MysqliStmtAdapterTest extends AbstractPDOStatementTestCase
 {
-    private static $driver;
+    private static \mysqli_driver $driver;
 
-    private static $previous_report_mode;
+    private static int $previous_report_mode;
 
     public static function setUpBeforeClass(): void
     {
@@ -32,9 +34,9 @@ class MysqliStmtAdapterTest extends AbstractPDOStatementTest
         self::$previous_report_mode = null;
     }
 
-    public function testExecuteWithFailure()
+    public function testExecuteWithFailure(): void
     {
-        $stmt = $this->getMockBuilder('mysqli_stmt')
+        $stmt = $this->getMockBuilder(\mysqli_stmt::class)
             ->disableOriginalConstructor()
             ->getMock();
         $stmt
@@ -47,14 +49,15 @@ class MysqliStmtAdapterTest extends AbstractPDOStatementTest
         $this->assertFalse($adapter->execute());
     }
 
-    public function testFetchColumnWithInvalidIndex()
+    public function testFetchColumnWithInvalidIndex(): void
     {
         $stmt = $this->pdo->prepare('SELECT 1');
+        $this->assertNotFalse($stmt);
         $this->assertTrue($stmt->execute([]));
         $this->assertFalse($stmt->fetchColumn(1));
     }
 
-    protected function preparePdo()
+    protected function preparePdo(): PDOInterface
     {
         $mysqli = new \mysqli(
             $GLOBALS['db_host'],

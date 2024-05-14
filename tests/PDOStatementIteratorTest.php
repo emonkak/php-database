@@ -4,7 +4,6 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOStatementInterface;
 use Emonkak\Database\PDOStatementIterator;
-use PHPUnit\Framework\MockObject\Rule\InvokedAtIndex;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,8 +11,16 @@ use PHPUnit\Framework\TestCase;
  */
 class PDOStatementIteratorTest extends TestCase
 {
+    /**
+     * @var PDOStatementInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $stmt;
 
+    /**
+     * @var PDOStatementIterator
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private $iterator;
 
     public function setUp(): void
@@ -22,29 +29,18 @@ class PDOStatementIteratorTest extends TestCase
         $this->iterator = new PDOStatementIterator($this->stmt);
     }
 
-    public static function at(int $index): InvokedAtIndex
-    {
-        return new InvokedAtIndex($index);
-    }
-
-    public function test()
+    public function testIterator(): void
     {
         $this->stmt
-            ->expects($this->at(0))
+            ->expects($this->exactly(5))
             ->method('fetch')
-            ->willReturn(['foo' => 1, 'bar' => 2]);
-        $this->stmt
-            ->expects($this->at(1))
-            ->method('fetch')
-            ->willReturn(['foo' => 3, 'bar' => 4]);
-        $this->stmt
-            ->expects($this->at(2))
-            ->method('fetch')
-            ->willReturn(['foo' => 5, 'bar' => 6]);
-        $this->stmt
-            ->expects($this->any())
-            ->method('fetch')
-            ->willReturn(false);
+            ->willReturnOnConsecutiveCalls(
+                ['foo' => 1, 'bar' => 2],
+                ['foo' => 3, 'bar' => 4],
+                ['foo' => 5, 'bar' => 6],
+                false,
+                false
+            );
 
         $expected = [
             ['foo' => 1, 'bar' => 2],

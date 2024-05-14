@@ -10,42 +10,40 @@ interface PDOInterface extends PDOTransactionInterface
     /**
      * Fetch the SQLSTATE associated with the last operation on the database
      * handle.
-     *
-     * @return ?string
      */
-    public function errorCode();
+    public function errorCode(): ?string;
 
     /**
      * Fetch extended error information associated with the last operation on
      * the statement handle.
-     *
-     * @return array
      */
-    public function errorInfo();
+    public function errorInfo(): array;
 
     /**
      * Execute an SQL statement and return the number of affected rows.
-     *
-     * @return int|false
      */
-    public function exec(string $statement);
+    public function exec(string $statement): int|false;
 
     /**
      * Returns the ID of the last inserted row or sequence value.
-     *
-     * @return string|false
      */
-    public function lastInsertId(?string $name = null);
+    public function lastInsertId(?string $name = null): string|false;
 
     /**
      * Prepares a statement for execution and returns a statement object.
      *
+     * NOTE: The return type is different from PDO's \PDOStatement|false, so
+     * there is no type hint.
+     *
      * @return PDOStatementInterface|false
      */
-    public function prepare(string $statement, array $options = []);
+    public function prepare(string $query, array $options = []);
 
     /**
      * Executes an SQL statement, returning a result set as a statement object.
+     *
+     * NOTE: The return type is different from PDO's \PDOStatement|false, so
+     * there is no type hint.
      *
      * @return PDOStatementInterface|false
      */
@@ -53,8 +51,6 @@ interface PDOInterface extends PDOTransactionInterface
 
     /**
      * Quotes a string for use in a query.
-     *
-     * @return string|false
      */
-    public function quote(string $string, int $type = \PDO::PARAM_STR);
+    public function quote(string $string, int $type = PDO::PARAM_STR): string|false;
 }

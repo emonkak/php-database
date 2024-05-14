@@ -7,10 +7,7 @@ namespace Emonkak\Database;
  */
 class PDOAdapter implements PDOInterface
 {
-    /**
-     * @var \PDO|PDOInterface
-     */
-    private $pdo;
+    private \PDO|PDOInterface $pdo;
 
     /**
      * @param \PDO|PDOInterface $pdo
@@ -27,104 +24,71 @@ class PDOAdapter implements PDOInterface
         $this->pdo = $pdo;
     }
 
-    /**
-     * @return \PDO|PDOInterface
-     */
-    public function getPdo()
+    public function getPdo(): \PDO|PDOInterface
     {
         return $this->pdo;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         return $this->pdo->beginTransaction();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function commit()
+    public function commit(): bool
     {
         return $this->pdo->commit();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorCode()
+    public function errorCode(): ?string
     {
         return $this->pdo->errorCode();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function errorInfo()
+    public function errorInfo(): array
     {
         return $this->pdo->errorInfo();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function exec(string $statement)
+    public function exec(string $statement): int|false
     {
         return $this->pdo->exec($statement);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->pdo->inTransaction();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function lastInsertId(?string $name = null)
+    public function lastInsertId(?string $name = null): string|false
     {
         return $this->pdo->lastInsertId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function prepare(string $statement, array $options = [])
+    public function prepare(string $query, array $options = []): PDOStatementInterface|false
     {
-        /** @psalm-var PDOStatement|false */
-        return $this->pdo->prepare($statement, $options);
+        /** @var PDOStatement|false */
+        return $this->pdo->prepare($query, $options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs): PDOStatementInterface|false
     {
         if (is_null($fetchMode)) {
-            /** @psalm-var PDOStatement|false */
+            /** @var PDOStatement|false */
             return $this->pdo->query($query);
         }
-        /** @psalm-var PDOStatement|false */
+        /**
+         * @var PDOStatement|false
+         * @psalm-suppress TooManyArguments
+         */
         return $this->pdo->query($query, $fetchMode, ...$fetchModeArgs);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function quote(string $string, int $type = \PDO::PARAM_STR)
+    public function quote(string $string, int $type = \PDO::PARAM_STR): string|false
     {
         return $this->pdo->quote($string, $type);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rollback()
+    public function rollback(): bool
     {
         return $this->pdo->rollback();
     }

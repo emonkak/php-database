@@ -1,39 +1,69 @@
 # Emonkak\Database
 
-[![Build Status](https://travis-ci.org/emonkak/php-database.svg?branch=master)](https://travis-ci.org/emonkak/php-database)
-[![Coverage Status](https://coveralls.io/repos/github/emonkak/php-database/badge.svg?branch=master)](https://coveralls.io/github/emonkak/php-database?branch=master)
+[![CI Status](https://github.com/emonkak/php-database/actions/workflows/ci.yml/badge.svg)](https://travis-ci.org/emonkak/php-database)
+[![Coverage Status](https://coveralls.io/repos/github/emonkak/php-database/badge.svg)](https://coveralls.io/github/emonkak/php-database)
 
-A database abstraction interface as a subset of PDO.
+This package provides a database abstraction as a subset of PDO.
 
-## Emonkak\Database\PDOInterface
+## API
 
-`Emonkak\Database\PDO` implements this interface.
+### Emonkak\Database\PDOInterface
 
-Please see below links for details of the method.
+```php
+interface PDOInterface extends PDOTransactionInterface
+{
+    public function errorCode(): ?string;
 
-- [beginTransaction](http://www.php.net/manual/pdo.begintransaction.php)()
-- [commit](http://www.php.net/manual/pdo.commit.php)()
-- [errorCode](http://www.php.net/manual/pdo.errorcode.php)()
-- [exec](http://www.php.net/manual/pdo.exec.php)($statement)
-- [inTransaction](http://www.php.net/manual/pdo.intransaction.php)()
-- [lastInsertId](http://www.php.net/manual/pdo.lastinsertid.php)($name = null)
-- [prepare](http://www.php.net/manual/pdo.prepare.php)($statement)
-- [query](http://www.php.net/manual/pdo.query.php)($statement)
-- [quote](http://www.php.net/manual/pdo.quote.php)($string, $parameter_type = null)
-- [rollback](http://www.php.net/manual/pdo.rollback.php)
+    public function errorInfo(): array;
 
-## Emonkak\Database\PDOStatementInterface
+    public function exec(string $statement): int|false;
 
-`Emonkak\Database\PDOStatement` implements this interface.
+    public function lastInsertId(?string $name = null): string|false;
 
-Please see below links for details of the method.
+    public function prepare(string $query, array $options = []): PDOStatementInterface|false;
 
-- [bindValue](http://www.php.net/manual/pdostatement.bindvalue.php)($parameter, $value, $data_type = null)
-- [errorCode](http://www.php.net/manual/pdostatement.errorcode.php)()
-- [errorInfo](http://www.php.net/manual/pdostatement.errorinfo.php)()
-- [execute](http://www.php.net/manual/pdostatement.execute.php)($input_parameters = null)
-- [fetch](http://www.php.net/manual/pdostatement.fetch.php)($fetch\_style = null, $cursor\_orientation = null, $cursor_offset = null)
-- [fetchAll](http://www.php.net/manual/pdostatement.fetchall.php)($fetch\_style = null, $fetch\_argument = null, $ctor_args = null)
-- [fetchColumn](http://www.php.net/manual/pdostatement.fetchcolumn.php)($column_number = 0)
-- [rowCount](http://www.php.net/manual/pdostatement.rowcount.php)()
-- [setFetchMode](http://www.php.net/manual/pdostatement.setfetchmode.php)($fetch_style, $fetch_argument = null, $ctor_args = null)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs): PDOStatementInterface|false;
+
+    public function quote(string $string, int $type = PDO::PARAM_STR): string|false;
+}
+```
+
+### Emonkak\Database\PDOTransactionInterface
+
+```php
+interface PDOTransactionInterface
+{
+    public function beginTransaction(): bool;
+
+    public function commit(): bool;
+
+    public function inTransaction(): bool;
+
+    public function rollback(): bool;
+}
+```
+
+### Emonkak\Database\PDOStatementInterface
+
+```php
+interface PDOStatementInterface extends \Traversable
+{
+    public function bindValue(string|int $param, mixed $value, int $type = \PDO::PARAM_STR): bool;
+
+    public function errorCode(): ?string;
+
+    public function errorInfo(): array;
+
+    public function execute(?array $params = null): bool;
+
+    public function fetch(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, int $cursorOrientation = PDO::FETCH_ORI_NEXT, int $cursorOffset = 0): mixed;
+
+    public function fetchAll(int $mode = \PDO::ATTR_DEFAULT_FETCH_MODE, mixed ...$args): array;
+
+    public function fetchColumn(int $column = 0): mixed;
+
+    public function rowCount(): int;
+
+    public function setFetchMode(int $mode, mixed ...$args): true;
+}
+```

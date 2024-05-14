@@ -7,27 +7,15 @@ namespace Emonkak\Database;
  */
 class PDOConnector extends AbstractConnector
 {
-    /**
-     * @var string
-     */
-    private $dsn;
+    private string $dsn;
 
-    /**
-     * @var ?string
-     */
-    private $user;
+    private ?string $user;
 
-    /**
-     * @var ?string
-     */
-    private $password;
+    private ?string $password;
 
-    /**
-     * @var ?array
-     */
-    private $options;
+    private ?array $options;
 
-    public function __construct(string $dsn, ?string $user = null, ?string $password = null, array $options = null)
+    public function __construct(string $dsn, ?string $user = null, ?string $password = null, ?array $options = null)
     {
         $this->dsn = $dsn;
         $this->user = $user;
@@ -35,22 +23,19 @@ class PDOConnector extends AbstractConnector
         $this->options = $options;
     }
 
-    public function __sleep()
+    /**
+     * @return array<int,string>
+     */
+    public function __sleep(): array
     {
         return ['dsn', 'user', 'password', 'options'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function doConnect(): PDOInterface
     {
         return new PDO($this->dsn, $this->user, $this->password, $this->options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function doDisconnect(PDOInterface $pdo): void
     {
     }

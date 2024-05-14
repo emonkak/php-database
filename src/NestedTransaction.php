@@ -4,20 +4,11 @@ namespace Emonkak\Database;
 
 class NestedTransaction implements PDOTransactionInterface
 {
-    /**
-     * @var PDOInterface
-     */
-    private $pdo;
+    private PDOInterface $pdo;
 
-    /**
-     * @var SavepointInterface
-     */
-    private $savepoint;
+    private SavepointInterface $savepoint;
 
-    /**
-     * @var NestedTransactionState
-     */
-    private $state;
+    private NestedTransactionState $state;
 
     public function __construct(PDOInterface $pdo, SavepointInterface $savepoint, ?NestedTransactionState $state = null)
     {
@@ -26,10 +17,7 @@ class NestedTransaction implements PDOTransactionInterface
         $this->state = $state ?: new NestedTransactionState();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         if ($this->state->getLevel() > 0) {
             $this->savepoint->create($this->pdo, $this->getSavepointName());
@@ -43,10 +31,7 @@ class NestedTransaction implements PDOTransactionInterface
         return $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function commit()
+    public function commit(): bool
     {
         if ($this->state->getLevel() > 0) {
             $this->state->decrementLevel();
@@ -60,18 +45,12 @@ class NestedTransaction implements PDOTransactionInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         return $this->state->getLevel() > 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rollback()
+    public function rollback(): bool
     {
         if ($this->state->getLevel() > 0) {
             $this->state->decrementLevel();

@@ -2,10 +2,18 @@
 
 namespace Emonkak\Database\Tests;
 
+use Emonkak\Database\PDOInterface;
 use PHPUnit\Framework\TestCase;
 
-abstract class AbstractPDOStatementTest extends TestCase
+/**
+ * @template TConnection of PDOInterface
+ */
+abstract class AbstractPDOStatementTestCase extends TestCase
 {
+    /**
+     * @var TConnection
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     protected $pdo;
 
     public function setUp(): void
@@ -13,8 +21,9 @@ abstract class AbstractPDOStatementTest extends TestCase
         $this->pdo = $this->preparePdo();
     }
 
-    public function testBindValue()
+    public function testBindValue(): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare('SELECT ? AS `bool`, ? AS `int`, ? AS `null`, ? AS `str`');
         $this->assertTrue($stmt->bindValue(1, 1, \PDO::PARAM_BOOL));
         $this->assertTrue($stmt->bindValue(2, 123, \PDO::PARAM_INT));
@@ -32,24 +41,27 @@ abstract class AbstractPDOStatementTest extends TestCase
     /**
      * @dataProvider providerFetchAll
      */
-    public function testFetchAll($fetch_args, $sql, $input_parameters, $expected)
+    public function testFetchAll(array $fetchArgs, string $sql, array $inputParameters, array $expectedResults): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare($sql);
-        $this->assertTrue($stmt->execute($input_parameters));
-        $this->assertEquals($expected, $stmt->fetchAll(...$fetch_args));
+        $this->assertTrue($stmt->execute($inputParameters));
+        $this->assertEquals($expectedResults, $stmt->fetchAll(...$fetchArgs));
 
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare($sql);
-        $this->assertTrue($stmt->setFetchMode(...$fetch_args));
-        $this->assertTrue($stmt->execute($input_parameters));
-        $this->assertEquals($expected, $stmt->fetchAll());
+        $this->assertTrue($stmt->setFetchMode(...$fetchArgs));
+        $this->assertTrue($stmt->execute($inputParameters));
+        $this->assertEquals($expectedResults, $stmt->fetchAll());
 
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare($sql);
-        $this->assertTrue($stmt->setFetchMode(...$fetch_args));
-        $this->assertTrue($stmt->execute($input_parameters));
-        $this->assertEquals($expected, iterator_to_array($stmt, false));
+        $this->assertTrue($stmt->setFetchMode(...$fetchArgs));
+        $this->assertTrue($stmt->execute($inputParameters));
+        $this->assertEquals($expectedResults, iterator_to_array($stmt, false));
     }
 
-    public function providerFetchAll()
+    public static function providerFetchAll(): array
     {
         return [
             [[\PDO::FETCH_ASSOC], 'SELECT * FROM (SELECT 1) AS tmp WHERE 0', [], []],
@@ -84,30 +96,33 @@ abstract class AbstractPDOStatementTest extends TestCase
     /**
      * @dataProvider providerFetchAllThrowsRuntimeException
      */
-    public function testFetchAllThrowsException($fetch_args, $sql, $input_parameters)
+    public function testFetchAllThrowsException(array $fetchArgs, string $sql, array $inputParameters): void
     {
         $this->expectException(\ValueError::class);
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($input_parameters);
-        $stmt->fetchAll(...$fetch_args);
+        $stmt->execute($inputParameters);
+        $stmt->fetchAll(...$fetchArgs);
     }
 
-    public function providerFetchAllThrowsRuntimeException()
+    public static function providerFetchAllThrowsRuntimeException(): array
     {
         return [
             [[\PDO::FETCH_COLUMN, 999], 'SELECT 1 AS foo, 2 AS bar', [], [2]],
         ];
     }
 
-    public function testFetchAllWithoutExecute()
+    public function testFetchAllWithoutExecute(): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface $stmt */
         $stmt = $this->pdo->prepare('SELECT 1');
         $this->assertEquals([], $stmt->fetchAll());
     }
 
-    public function testFetchAllWithInvalidFetchMode()
+    public function testFetchAllWithInvalidFetchMode(): void
     {
         $this->expectException(\ValueError::class);
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare('SELECT 1');
         $stmt->execute();
         $stmt->fetchAll(-1);
@@ -116,14 +131,15 @@ abstract class AbstractPDOStatementTest extends TestCase
     /**
      * @dataProvider providerFetch
      */
-    public function testFetch($fetch_args, $sql, $input_parameters, $expected)
+    public function testFetch(array $fetchArgs, string $sql, array $inputParameters, mixed $expectedResult): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare($sql);
-        $this->assertTrue($stmt->execute($input_parameters));
-        $this->assertEquals($expected, $stmt->fetch(...$fetch_args));
+        $this->assertTrue($stmt->execute($inputParameters));
+        $this->assertEquals($expectedResult, $stmt->fetch(...$fetchArgs));
     }
 
-    public function providerFetch()
+    public static function providerFetch(): array
     {
         return [
             [[\PDO::FETCH_ASSOC], 'SELECT * FROM (SELECT 1) AS tmp WHERE 0', [], false],
@@ -143,15 +159,17 @@ abstract class AbstractPDOStatementTest extends TestCase
         ];
     }
 
-    public function testFetchWithoutExecute()
+    public function testFetchWithoutExecute(): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare('SELECT 1');
         $this->assertFalse($stmt->fetch());
     }
 
-    public function testFetchWithInvalidFetchMode()
+    public function testFetchWithInvalidFetchMode(): void
     {
         $this->expectException(\ValueError::class);
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare('SELECT 1');
         $stmt->execute();
         $stmt->fetch(-1);
@@ -160,14 +178,15 @@ abstract class AbstractPDOStatementTest extends TestCase
     /**
      * @dataProvider providerFetchColumn
      */
-    public function testFetchColumn($sql, $input_parameters, $column_number, $expected)
+    public function testFetchColumn(string $sql, array $inputParameters, int $columnNumber, mixed $expectedResult): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare($sql);
-        $this->assertTrue($stmt->execute($input_parameters));
-        $this->assertEquals($expected, $stmt->fetchColumn($column_number));
+        $this->assertTrue($stmt->execute($inputParameters));
+        $this->assertEquals($expectedResult, $stmt->fetchColumn($columnNumber));
     }
 
-    public function providerFetchColumn()
+    public static function providerFetchColumn(): array
     {
         return [
             ['SELECT * FROM (SELECT 1) AS tmp WHERE 0', [], 0, false],
@@ -179,34 +198,40 @@ abstract class AbstractPDOStatementTest extends TestCase
         ];
     }
 
-    public function testFetchColumnWithoutExecute()
+    public function testFetchColumnWithoutExecute(): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare('SELECT 1');
         $this->assertFalse($stmt->fetchColumn());
     }
 
-    public function testErrorCode()
+    public function testErrorCode(): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare('SELECT 1');
         $stmt->execute();
         $this->assertEquals(0, $stmt->errorCode());
     }
 
-    public function testErrorInfo()
+    public function testErrorInfo(): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare('SELECT 1');
         $stmt->execute();
         $error = $stmt->errorInfo();
-        $this->assertIsArray($error);
         $this->assertCount(3, $error);
     }
 
-    public function testRowCount()
+    public function testRowCount(): void
     {
+        /** @var \Emonkak\Database\PDOStatementInterface */
         $stmt = $this->pdo->prepare('SELECT * FROM (SELECT 1) AS tmp WHERE 0');
         $stmt->execute();
         $this->assertSame(0, $stmt->rowCount());
     }
 
-    abstract protected function preparePdo();
+    /**
+     * @return TConnection
+     */
+    abstract protected function preparePdo(): PDOInterface;
 }

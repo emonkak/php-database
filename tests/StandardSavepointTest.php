@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StandardSavepointTest extends TestCase
 {
-    public function testCreate()
+    public function testCreate(): void
     {
         $pdo = $this->createMock(PDOInterface::class);
         $pdo->expects($this->once())
@@ -21,7 +21,7 @@ class StandardSavepointTest extends TestCase
         (new StandardSavepoint())->create($pdo, $name);
     }
 
-    public function testRelease()
+    public function testRelease(): void
     {
         $pdo = $this->createMock(PDOInterface::class);
         $pdo->expects($this->once())
@@ -31,7 +31,7 @@ class StandardSavepointTest extends TestCase
         (new StandardSavepoint())->release($pdo, $name);
     }
 
-    public function testRollbackTo()
+    public function testRollbackTo(): void
     {
         $pdo = $this->createMock(PDOInterface::class);
         $pdo->expects($this->once())

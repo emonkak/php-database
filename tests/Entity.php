@@ -4,7 +4,11 @@ namespace Emonkak\Database\Tests;
 
 class Entity
 {
-    public static function fromArray(array $props)
+    private mixed $foo;
+
+    private mixed $bar;
+
+    public static function fromArray(array $props): self
     {
         $self = new Entity();
         foreach ($props as $key => $prop) {
