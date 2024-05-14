@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -40,9 +41,7 @@ abstract class AbstractPDOStatementTestCase extends TestCase
         ], $stmt->fetch(\PDO::FETCH_ASSOC));
     }
 
-    /**
-     * @dataProvider providerFetchAll
-     */
+    #[DataProvider('providerFetchAll')]
     public function testFetchAll(array $fetchArgs, string $sql, array $inputParameters, array $expectedResults): void
     {
         /** @var \Emonkak\Database\PDOStatementInterface */
@@ -95,9 +94,7 @@ abstract class AbstractPDOStatementTestCase extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerFetchAllThrowsRuntimeException
-     */
+    #[DataProvider('providerFetchAllThrowsRuntimeException')]
     public function testFetchAllThrowsException(array $fetchArgs, string $sql, array $inputParameters): void
     {
         $this->expectException(\ValueError::class);
@@ -130,9 +127,7 @@ abstract class AbstractPDOStatementTestCase extends TestCase
         $stmt->fetchAll(-1);
     }
 
-    /**
-     * @dataProvider providerFetch
-     */
+    #[DataProvider('providerFetch')]
     public function testFetch(array $fetchArgs, string $sql, array $inputParameters, mixed $expectedResult): void
     {
         /** @var \Emonkak\Database\PDOStatementInterface */
@@ -177,9 +172,7 @@ abstract class AbstractPDOStatementTestCase extends TestCase
         $stmt->fetch(-1);
     }
 
-    /**
-     * @dataProvider providerFetchColumn
-     */
+    #[DataProvider('providerFetchColumn')]
     public function testFetchColumn(string $sql, array $inputParameters, int $columnNumber, mixed $expectedResult): void
     {
         /** @var \Emonkak\Database\PDOStatementInterface */

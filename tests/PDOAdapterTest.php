@@ -6,12 +6,12 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOAdapter;
 use Emonkak\Database\PDOInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * @covers \Emonkak\Database\PDOAdapter
- *
  * @extends AbstractPDOTestCase<PDOAdapter>
  */
+#[CoversClass(PDOAdapter::class)]
 class PDOAdapterTest extends AbstractPDOTestCase
 {
     public function testGetPdo(): void

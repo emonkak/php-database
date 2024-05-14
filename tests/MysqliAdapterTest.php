@@ -6,13 +6,14 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\MysqliAdapter;
 use Emonkak\Database\PDOInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 /**
- * @covers \Emonkak\Database\MysqliAdapter
- * @requires extension mysqli
- *
  * @extends AbstractPDOTestCase<MysqliAdapter>
  */
+#[CoversClass(MysqliAdapter::class)]
+#[RequiresPhpExtension('mysqli')]
 class MysqliAdapterTest extends AbstractPDOTestCase
 {
     /**

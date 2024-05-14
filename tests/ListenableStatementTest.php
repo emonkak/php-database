@@ -8,11 +8,10 @@ use Emonkak\Database\ListenableStatement;
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\PDOListenerInterface;
 use Emonkak\Database\PDOStatementInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Emonkak\Database\ListenableStatement
- */
+#[CoversClass(ListenableStatement::class)]
 class ListenableStatementTest extends TestCase
 {
     public function testDelegate(): void

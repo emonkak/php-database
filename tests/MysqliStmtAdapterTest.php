@@ -7,13 +7,14 @@ namespace Emonkak\Database\Tests;
 use Emonkak\Database\MysqliAdapter;
 use Emonkak\Database\MysqliStmtAdapter;
 use Emonkak\Database\PDOInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 /**
- * @covers \Emonkak\Database\MysqliStmtAdapter
- * @requires extension mysqli
- *
  * @extends AbstractPDOStatementTestCase<MysqliAdapter>
  */
+#[CoversClass(MysqliStmtAdapter::class)]
+#[RequiresPhpExtension('mysqli')]
 class MysqliStmtAdapterTest extends AbstractPDOStatementTestCase
 {
     private static \mysqli_driver $driver;

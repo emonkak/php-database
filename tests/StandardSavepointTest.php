@@ -6,11 +6,10 @@ namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\StandardSavepoint;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Emonkak\Database\StandardSavepoint
- */
+#[CoversClass(StandardSavepoint::class)]
 class StandardSavepointTest extends TestCase
 {
     public function testCreate(): void

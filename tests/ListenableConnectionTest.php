@@ -9,11 +9,10 @@ use Emonkak\Database\ListenableStatement;
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\PDOListenerInterface;
 use Emonkak\Database\PDOStatementInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Emonkak\Database\ListenableConnection
- */
+#[CoversClass(ListenableConnection::class)]
 class ListenableConnectionTest extends TestCase
 {
     /**

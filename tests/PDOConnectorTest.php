@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Emonkak\Database\Tests;
 
+use Emonkak\Database\AbstractConnector;
 use Emonkak\Database\PDOConnector;
 use Emonkak\Database\PDOInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- * @covers \Emonkak\Database\AbstractConnector
- * @covers \Emonkak\Database\PDOConnector
- *
  * @extends AbstractConnectorTestCase<PDOConnector>
  */
+#[CoversClass(AbstractConnector::class)]
+#[CoversClass(PDOConnector::class)]
 class PDOConnectorTest extends AbstractConnectorTestCase
 {
     protected function preparePdo(): PDOInterface
