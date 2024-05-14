@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\MysqliConnector;
@@ -41,7 +43,7 @@ class MysqliConnectorTest extends AbstractConnectorTestCase
             $GLOBALS['db_username'],
             $GLOBALS['db_password'],
             $GLOBALS['db_name'],
-            $GLOBALS['db_port']
+            (int) $GLOBALS['db_port']
         );
     }
 }
