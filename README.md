@@ -1,6 +1,6 @@
 # Emonkak\Database
 
-[![CI Status](https://github.com/emonkak/php-database/actions/workflows/ci.yml/badge.svg)](https://travis-ci.org/emonkak/php-database)
+![CI Status](https://github.com/emonkak/php-database/actions/workflows/ci.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/emonkak/php-database/badge.svg)](https://coveralls.io/github/emonkak/php-database)
 
 This package provides a database abstraction as a subset of PDO.
