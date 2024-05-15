@@ -6,7 +6,7 @@ namespace Emonkak\Database;
 
 /**
  * @template TValue
- * @template-extends \PDOStatement<TValue>
+ * @extends \PDOStatement<TValue>
  */
 class PDOStatement extends \PDOStatement implements PDOStatementInterface
 {

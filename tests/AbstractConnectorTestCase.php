@@ -8,7 +8,7 @@ use Emonkak\Database\PDOInterface;
 
 /**
  * @template TConnection of \Emonkak\Database\AbstractConnector
- * @template-extends AbstractPDOTestCase<TConnection>
+ * @extends AbstractPDOTestCase<TConnection>
  */
 abstract class AbstractConnectorTestCase extends AbstractPDOTestCase
 {
