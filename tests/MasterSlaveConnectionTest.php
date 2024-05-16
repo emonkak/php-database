@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\MasterSlaveConnection;
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\PDOStatementInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Emonkak\Database\MasterSlaveConnection
- */
+#[CoversClass(MasterSlaveConnection::class)]
 class MasterSlaveConnectionTest extends TestCase
 {
     /**

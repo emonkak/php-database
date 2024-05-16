@@ -1,17 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Database\Tests;
 
+use Emonkak\Database\AbstractConnector;
 use Emonkak\Database\MysqliConnector;
 use Emonkak\Database\PDOInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 
 /**
- * @covers \Emonkak\Database\AbstractConnector
- * @covers \Emonkak\Database\MysqliConnector
- * @requires extension mysqli
- *
  * @extends AbstractConnectorTestCase<MysqliConnector>
  */
+#[CoversClass(AbstractConnector::class)]
+#[CoversClass(MysqliConnector::class)]
+#[RequiresPhpExtension('mysqli')]
 class MysqliConnectorTest extends AbstractConnectorTestCase
 {
     private static \mysqli_driver $driver;
@@ -41,7 +45,7 @@ class MysqliConnectorTest extends AbstractConnectorTestCase
             $GLOBALS['db_username'],
             $GLOBALS['db_password'],
             $GLOBALS['db_name'],
-            $GLOBALS['db_port']
+            (int) $GLOBALS['db_port']
         );
     }
 }

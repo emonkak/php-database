@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\PDOStatementInterface;
 use Emonkak\Database\PDOStatementIterator;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Emonkak\Database\PDOStatementIterator
- */
+#[CoversClass(PDOStatementIterator::class)]
 class PDOStatementIteratorTest extends TestCase
 {
     /**

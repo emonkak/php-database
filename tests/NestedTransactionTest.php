@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\NestedTransaction;
+use Emonkak\Database\NestedTransactionState;
 use Emonkak\Database\PDOInterface;
 use Emonkak\Database\SavepointInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Emonkak\Database\NestedTransaction
- * @covers \Emonkak\Database\NestedTransactionState
- */
+#[CoversClass(NestedTransaction::class)]
+#[CoversClass(NestedTransactionState::class)]
 class NestedTransactionTest extends TestCase
 {
     /**

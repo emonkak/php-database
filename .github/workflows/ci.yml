@@ -30,15 +30,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout the repository
         uses: actions/checkout@v4
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo 'dir=$(composer config cache-files-dir)' >> $GITHUB_OUTPUT
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
       - name: Install dependencies
         run: composer install --no-ansi --no-interaction --no-progress --prefer-dist
       - name: Run Psalm
@@ -46,10 +37,20 @@ jobs:
       - name: Run PHP CS Fixer
         run: ./vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --stop-on-violation --show-progress=none --verbose
       - name: Run tests
-        run: ./vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml
+        run: ./vendor/bin/phpunit --coverage-clover ./coverage/clover.xml
       - name: Upload coverage results
-        run: ./vendor/bin/php-coveralls --verbose
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COVERALLS_PARALLEL: 'true'
-          COVERALLS_FLAG_NAME: php-${{ matrix.php-version }}
+        continue-on-error: true
+        uses: coverallsapp/github-action@v2
+        with:
+          file: ./coverage/clover.xml
+          flag-name: php-${{ matrix.php-version }}
+          parallel: true
+  finish:
+    needs: test
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finish Coveralls parallel build
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true

@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Emonkak\Database\Tests;
 
 use Emonkak\Database\NullSavepoint;
 use Emonkak\Database\PDOInterface;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers \Emonkak\Database\NullSavepoint
- */
+#[CoversClass(NullSavepoint::class)]
 class NullSavepointTest extends TestCase
 {
     public function testCreate(): void
