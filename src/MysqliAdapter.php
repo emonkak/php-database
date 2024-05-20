@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Emonkak\Database;
 
 /**
- * The adapter for mysqli.
+ * A PDOInterface adapter for mysqli.
  */
 class MysqliAdapter implements PDOInterface
 {

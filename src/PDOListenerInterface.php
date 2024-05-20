@@ -7,24 +7,24 @@ namespace Emonkak\Database;
 interface PDOListenerInterface
 {
     /**
-     * Query has been executed.
+     * Fired when a query is executed.
      *
      * @param mixed[] $bindings
      */
     public function onQuery(PDOInterface $pdo, string $queryString, array $bindings, float $time): void;
 
     /**
-     * Transaction started.
+     * Fired when a transaction is started.
      */
     public function onBeginTransaction(PDOInterface $pdo): void;
 
     /**
-     * Transaction rolled back.
+     * Fired when a transaction is rolled back.
      */
     public function onRollback(PDOInterface $pdo): void;
 
     /**
-     * Transaction committed.
+     * Fired when a transaction is committed.
      */
     public function onCommit(PDOInterface $pdo): void;
 }

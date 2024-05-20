@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Emonkak\Database;
 
 /**
- * The adapter for PDO instance.
+ * A PDOInterface adapter for PDO.
  */
 class PDOAdapter implements PDOInterface
 {

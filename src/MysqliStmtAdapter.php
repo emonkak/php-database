@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Emonkak\Database;
 
 /**
- * A PDOStatement adapter for mysqli_stmt.
+ * A PDOStatementInterface adapter for mysqli_stmt.
  *
  * @implements \IteratorAggregate<mixed,mixed>
  */

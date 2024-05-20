@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Emonkak\Database;
 
 /**
- * The interface as a subset of PDOStatement.
+ * An interface as a subset of PDOStatement.
  *
  * @extends \Traversable<mixed,mixed>
  */
